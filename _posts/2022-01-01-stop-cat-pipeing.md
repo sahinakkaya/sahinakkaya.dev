@@ -10,7 +10,7 @@ I'm sure that you run a command something like above at least once if you are us
 grep some_pattern some_file
 ```
 
-... which can make you save a few keystrokes and a few nanoseconds of CPU cycles. Phew! Not a big deal if you are not working files that contains GBs of data, right? I agree but you should still use the former command because it will help you solve some other problems better. Here is a real life scenario: You want to search for some specific pattern in all the files in a directory. 
+... which can make you save a few keystrokes and a few nanoseconds of CPU cycles. Phew! Not a big deal if you are not working files that contains GBs of data, right? I agree but you should still use the latter command because it will help you solve some other problems better. Here is a real life scenario: You want to search for some specific pattern in all the files in a directory. 
 
 - If you use the first approach, you may end up running commands like this:
 
