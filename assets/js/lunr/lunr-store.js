@@ -10,4 +10,10 @@ var store = [{
         "tags": ["cat","grep","linux","command-line"],
         "url": "/2022/01/01/stop-cat-pipeing.html",
         "teaser": null
+      },{
+        "title": "Automatically Build and Deploy Your Site using GitHub Actions and Webhooks",
+        "excerpt":"In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough. Introduction to GitHub Actions and...","categories": [],
+        "tags": ["github-actions","github-webhooks","ci-cd"],
+        "url": "/2022/01/04/build-and-deploy-automatically.html",
+        "teaser": null
       }]

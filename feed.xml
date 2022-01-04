@@ -1,4 +1,183 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-01-04T17:31:41+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Stop cat-pipe’ing, You Are Doing It Wrong!</title><link href="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html" rel="alternate" type="text/html" title="Stop cat-pipe’ing, You Are Doing It Wrong!" /><published>2022-01-01T15:00:00+00:00</published><updated>2022-01-01T15:00:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html">&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;some_file | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;some_pattern
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-01-04T23:26:11+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Automatically Build and Deploy Your Site using GitHub Actions and Webhooks</title><link href="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html" rel="alternate" type="text/html" title="Automatically Build and Deploy Your Site using GitHub Actions and Webhooks" /><published>2022-01-04T17:40:00+00:00</published><updated>2022-01-04T17:40:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html">&lt;p&gt;In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction-to-github-actions-and-webhooks&quot;&gt;Introduction to GitHub Actions and Webhooks&lt;/h2&gt;
+&lt;p&gt;Let me start by explaining what are GitHub Actions and GitHub Webhooks.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Github Actions&lt;/strong&gt; is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository, or deploy merged pull requests to production.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;strong&gt;Webhooks&lt;/strong&gt; provide a way for notifications to be delivered to an external web server whenever certain actions occur on a repository or organization. … For example, you can configure a webhook to execute whenever:&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;A repository is pushed to&lt;/li&gt;
+    &lt;li&gt;A pull request is opened&lt;/li&gt;
+    &lt;li&gt;A GitHub Pages site is built&lt;/li&gt;
+    &lt;li&gt;A new member is added to a team&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;defining-the-problem-and-solution&quot;&gt;Defining the problem and solution&lt;/h2&gt;
+&lt;p&gt;As I said, my example will be automating the deployment of this site. Here is the normal workflow of me doing it manually:
+&lt;img src=&quot;/assets/images/gh-actions-and-webhooks/workflow.png&quot; alt=&quot;My workflow&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, the only place where my work is really required is writing the post. Other two steps can be automated. We will use GitHub Actions to generate the site content and Webhooks to let our server know about the new content so it can pull the changes. Let’s get started.&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-github-actions&quot;&gt;Setting up GitHub Actions&lt;/h3&gt;
+&lt;p&gt;Setting up a GitHub Action is as easy as creating a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.yml&lt;/code&gt; file in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.github/workflows/&lt;/code&gt; directory in your repository. Let us create a new action to build our site. Fortunately, there is already a &lt;a href=&quot;https://github.com/marketplace/actions/jekyll-actions&quot;&gt;GitHub action&lt;/a&gt; to do it for us. Create a file called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.github/workflows/jekyll.yml&lt;/code&gt; in your root directory of your repository and put the following contents:&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Jekyll site CI&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;pull_request&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;main&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Jekyll Actions&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;helaili/jekyll-action@2.2.0&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;token&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.GITHUB_TOKEN }}&lt;/span&gt; 
+        &lt;span class=&quot;na&quot;&gt;keep_history&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;target_branch&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;gh-pages'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;That’s it! We have created our first Action. When we push this change, GitHub will start building our site and push the result to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; branch. Currently, it will take a while to build because we don’t use caching. So let’s include it to build faster. Add the following piece as a second step:&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Use GitHub Actions' cache to shorten build times and decrease load on servers&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v2&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vendor/bundle&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+      &lt;span class=&quot;s&quot;&gt;${{ runner.os }}-gems-&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;We are done with the Actions part. You can see the final code &lt;a href=&quot;https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml&quot;&gt;here&lt;/a&gt;. When you are also done with the code, just push it to trigger the action.&lt;/p&gt;
+
+&lt;h3 id=&quot;setting-up-the-webhook-and-related-endpoint&quot;&gt;Setting up the Webhook and related endpoint&lt;/h3&gt;
+&lt;p&gt;Now that we set up our Action to build the site, we need to let our server know about the changes so that we can pull them.&lt;/p&gt;
+
+&lt;h4 id=&quot;creating-a-webhook-from-github&quot;&gt;Creating a Webhook from GitHub&lt;/h4&gt;
+
+&lt;p&gt;To add a Webhook, open your repository in browser and navigate to &lt;em&gt;‘Settings &amp;gt; Webhooks’&lt;/em&gt; and click &lt;em&gt;‘Add Webhook’&lt;/em&gt;. Fill in the form with appropriate values. Here is an example:
+&lt;img src=&quot;/assets/images/gh-actions-and-webhooks/add-webhook.png&quot; alt=&quot;Webhook form example&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This is all you have to do from GitHub. Now, whenever there is a &lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;push&lt;/code&gt;&lt;/em&gt; event to our repository, GitHub will send a POST request to our &lt;em&gt;payload url&lt;/em&gt; with the details.&lt;/p&gt;
+
+&lt;p class=&quot;notice--info&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; Our Action is configured to push to a branch in our repository, so it will also trigger this hook and we will catch it.&lt;/p&gt;
+
+&lt;h4 id=&quot;creating-an-endpoint-to-handle-the-requests&quot;&gt;Creating an endpoint to handle the requests&lt;/h4&gt;
+&lt;p&gt;I will use &lt;a href=&quot;https://flask.palletsprojects.com/en/2.0.x/&quot;&gt;Flask&lt;/a&gt; framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job.&lt;/p&gt;
+
+&lt;p&gt;Create a new project, and a virtual environment:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mdkir post_receiver
+&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;post_receiver
+python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; venv venv
+&lt;span class=&quot;nb&quot;&gt;source &lt;/span&gt;venv/bin/activate
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Install the required packages:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;Flask gunicorn
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Create a new file for storing our environment variables:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# config.py
+&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;APP_KEY&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;your-secret-key&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# same key that is used in github while creating the webhook
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PROJECT_PATH&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;/path/to/your/project/&quot;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# you will want to cd into this path and perform commands such as git pull etc.
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And create the Flask application:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# post_receiver.py
+&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;hashlib&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;hmac&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;subprocess&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;flask&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Flask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;config&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Flask&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;route&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'/'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;methods&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'GET'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'POST'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'GET'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'OK'&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;elif&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;method&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'POST'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;bytes&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;APP_KEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;digester&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hmac&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hashlib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sha256&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;calculated_signature&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'sha256='&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;digester&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hexdigest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;signature&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'X-Hub-Signature-256'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;calculated_signature&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;headers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'X-Hub-Signature-256'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;subprocess&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Popen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'./perform-git-pull.sh {}'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PROJECT_PATH&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;shell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'OK&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'ERROR&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;__main__&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'0.0.0.0'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running a simple &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git pull&lt;/code&gt; command in our repository but you might need it if you are doing something more complicated. And here is the contents of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;perform-git-pull.sh&lt;/code&gt; file:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;
+git pull
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.&lt;/p&gt;
+
+&lt;p&gt;Create a new file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_receiver.service&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/systemd/system&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# change &amp;lt;user&amp;gt; to your actual username
+[Unit]
+Description=post_receiver
+After=network.target multi-user.target
+
+[Service]
+User=&amp;lt;user&amp;gt;
+Environment=&quot;PYTHONPATH=/home/&amp;lt;user&amp;gt;/post_receiver/venv/bin/python&quot;
+WorkingDirectory=/home/&amp;lt;user&amp;gt;/post_receiver
+ExecStart=/home/&amp;lt;user&amp;gt;/post_receiver/venv/bin/gunicorn -b 127.0.0.1:5000 -w 2 --log-file /home/&amp;lt;user&amp;gt;/post_receiver/post_receiver.log post_receiver
+
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Make sure port &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;5000&lt;/code&gt; is reachable from outside.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ufw allow 5000
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;ufw &lt;span class=&quot;nb&quot;&gt;enable&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally, edit your nginx configuration, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/nginx/sites-available/yoursite&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;location =  /postreceive/ {
+    proxy_pass          http://localhost:5000/;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Start, restart the services&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl daemon-reload
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl start post_receiver
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl &lt;span class=&quot;nb&quot;&gt;enable &lt;/span&gt;post_receiver
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;systemctl restart nginx
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s it! &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl https://yourdomain.com/postreceive/&lt;/code&gt; should return &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;OK&quot;&lt;/code&gt; and we are ready to accept POST requests from GitHub.&lt;/p&gt;
+
+&lt;h3 id=&quot;notes-for-debugging&quot;&gt;Notes for debugging&lt;/h3&gt;
+&lt;p&gt;In case anything goes wrong, here are a few tips to debug:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Every GitHub Action produces a log that you can examine. Check them to see if anything is odd.&lt;/li&gt;
+  &lt;li&gt;In the &lt;em&gt;Webhooks&lt;/em&gt; tab, there is a sub-tab called &lt;em&gt;Recent Deliveries&lt;/em&gt;. You can take a look at there to see the results of the requests from your hooks.&lt;/li&gt;
+  &lt;li&gt;You can always test your code locally with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;curl&lt;/code&gt;:
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;❯ curl -i -X POST -H 'Content-Type: application/json' -d '{&quot;foo&quot;: &quot;bar&quot;, &quot;bar&quot;: &quot;baz&quot;}' https://yourdomain.com/postreceive/
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Happy hacking!&lt;/p&gt;</content><author><name>Şahin Akkaya</name></author><category term="github-actions" /><category term="github-webhooks" /><category term="ci-cd" /><summary type="html">In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.</summary></entry><entry><title type="html">Stop cat-pipe’ing, You Are Doing It Wrong!</title><link href="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html" rel="alternate" type="text/html" title="Stop cat-pipe’ing, You Are Doing It Wrong!" /><published>2022-01-01T15:00:00+00:00</published><updated>2022-01-01T15:00:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html">&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;some_file | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;some_pattern
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;I’m sure that you run a command something like above at least once if you are using terminal. You know how &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grep&lt;/code&gt; works and you also know what pipe (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;|&lt;/code&gt;) does. So you naturally combine all of these to make the job done. I was also doing it this way. What I didn’t know is that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grep&lt;/code&gt; already accepts file as an argument. So the above command could be rewritten as:&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;some_pattern some_file

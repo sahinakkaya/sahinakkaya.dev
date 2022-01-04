@@ -1,0 +1,698 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Automatically Build and Deploy Your Site using GitHub Actions and Webhooks - Şahin Akkaya’s Personal Page</title>
+<meta name="description" content="In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.">
+
+
+  <meta name="author" content="Şahin Akkaya">
+  
+  <meta property="article:author" content="Şahin Akkaya">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Şahin Akkaya's Personal Page">
+<meta property="og:title" content="Automatically Build and Deploy Your Site using GitHub Actions and Webhooks">
+<meta property="og:url" content="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html">
+
+
+  <meta property="og:description" content="In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-04T17:40:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://sahinakkaya.dev/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Şahin Akkaya's Personal Page Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          /home/sahin/
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/contact/">Contact</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/logo.jpg" alt="Şahin Akkaya" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Şahin Akkaya</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>A perfectionist who likes to tinker everything until it is just right.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Istanbul, Turkey</span>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/sahinakkayadev" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Asocia" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://stackoverflow.com/users/9608759" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-stack-overflow" aria-hidden="true"></i><span class="label">Stack Overflow</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Automatically Build and Deploy Your Site using GitHub Actions and Webhooks">
+    <meta itemprop="description" content="In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.">
+    <meta itemprop="datePublished" content="2022-01-04T17:40:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Automatically Build and Deploy Your Site using GitHub Actions and Webhooks
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-04T17:40:00+00:00">January 4, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.</p>
+
+<h2 id="introduction-to-github-actions-and-webhooks">Introduction to GitHub Actions and Webhooks</h2>
+<p>Let me start by explaining what are GitHub Actions and GitHub Webhooks.</p>
+
+<blockquote>
+  <p><strong>Github Actions</strong> is a continuous integration and continuous delivery (CI/CD) platform that allows you to automate your build, test, and deployment pipeline. You can create workflows that build and test every pull request to your repository, or deploy merged pull requests to production.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>Webhooks</strong> provide a way for notifications to be delivered to an external web server whenever certain actions occur on a repository or organization. … For example, you can configure a webhook to execute whenever:</p>
+  <ul>
+    <li>A repository is pushed to</li>
+    <li>A pull request is opened</li>
+    <li>A GitHub Pages site is built</li>
+    <li>A new member is added to a team</li>
+  </ul>
+</blockquote>
+
+<h2 id="defining-the-problem-and-solution">Defining the problem and solution</h2>
+<p>As I said, my example will be automating the deployment of this site. Here is the normal workflow of me doing it manually:
+<img src="/assets/images/gh-actions-and-webhooks/workflow.png" alt="My workflow" /></p>
+
+<p>As you can see, the only place where my work is really required is writing the post. Other two steps can be automated. We will use GitHub Actions to generate the site content and Webhooks to let our server know about the new content so it can pull the changes. Let’s get started.</p>
+
+<h3 id="setting-up-github-actions">Setting up GitHub Actions</h3>
+<p>Setting up a GitHub Action is as easy as creating a <code class="language-plaintext highlighter-rouge">.yml</code> file in <code class="language-plaintext highlighter-rouge">.github/workflows/</code> directory in your repository. Let us create a new action to build our site. Fortunately, there is already a <a href="https://github.com/marketplace/actions/jekyll-actions">GitHub action</a> to do it for us. Create a file called <code class="language-plaintext highlighter-rouge">.github/workflows/jekyll.yml</code> in your root directory of your repository and put the following contents:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Jekyll site CI</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">main</span> <span class="pi">]</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Jekyll Actions</span>
+      <span class="na">uses</span><span class="pi">:</span> <span class="s">helaili/jekyll-action@2.2.0</span>
+      <span class="na">with</span><span class="pi">:</span>
+        <span class="na">token</span><span class="pi">:</span> <span class="s">${{ secrets.GITHUB_TOKEN }}</span> 
+        <span class="na">keep_history</span><span class="pi">:</span> <span class="no">true</span>
+        <span class="na">target_branch</span><span class="pi">:</span> <span class="s1">'</span><span class="s">gh-pages'</span>
+</code></pre></div></div>
+<p>That’s it! We have created our first Action. When we push this change, GitHub will start building our site and push the result to <code class="language-plaintext highlighter-rouge">gh-pages</code> branch. Currently, it will take a while to build because we don’t use caching. So let’s include it to build faster. Add the following piece as a second step:</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Use GitHub Actions' cache to shorten build times and decrease load on servers</span>
+<span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
+  <span class="na">with</span><span class="pi">:</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+    <span class="na">key</span><span class="pi">:</span> <span class="s">${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}</span>
+    <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
+      <span class="s">${{ runner.os }}-gems-</span>
+</code></pre></div></div>
+<p>We are done with the Actions part. You can see the final code <a href="https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml">here</a>. When you are also done with the code, just push it to trigger the action.</p>
+
+<h3 id="setting-up-the-webhook-and-related-endpoint">Setting up the Webhook and related endpoint</h3>
+<p>Now that we set up our Action to build the site, we need to let our server know about the changes so that we can pull them.</p>
+
+<h4 id="creating-a-webhook-from-github">Creating a Webhook from GitHub</h4>
+
+<p>To add a Webhook, open your repository in browser and navigate to <em>‘Settings &gt; Webhooks’</em> and click <em>‘Add Webhook’</em>. Fill in the form with appropriate values. Here is an example:
+<img src="/assets/images/gh-actions-and-webhooks/add-webhook.png" alt="Webhook form example" /></p>
+
+<p>This is all you have to do from GitHub. Now, whenever there is a <em><code class="language-plaintext highlighter-rouge">push</code></em> event to our repository, GitHub will send a POST request to our <em>payload url</em> with the details.</p>
+
+<p class="notice--info"><strong>Note:</strong> Our Action is configured to push to a branch in our repository, so it will also trigger this hook and we will catch it.</p>
+
+<h4 id="creating-an-endpoint-to-handle-the-requests">Creating an endpoint to handle the requests</h4>
+<p>I will use <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a> framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job.</p>
+
+<p>Create a new project, and a virtual environment:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mdkir post_receiver
+<span class="nb">cd </span>post_receiver
+python3 <span class="nt">-m</span> venv venv
+<span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+<p>Install the required packages:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>Flask gunicorn
+</code></pre></div></div>
+<p>Create a new file for storing our environment variables:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># config.py
+</span>
+<span class="n">APP_KEY</span> <span class="o">=</span> <span class="s">"your-secret-key"</span> <span class="c1"># same key that is used in github while creating the webhook
+</span><span class="n">PROJECT_PATH</span> <span class="o">=</span> <span class="s">"/path/to/your/project/"</span> <span class="c1"># you will want to cd into this path and perform commands such as git pull etc.
+</span></code></pre></div></div>
+
+<p>And create the Flask application:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># post_receiver.py
+</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">request</span>
+
+<span class="kn">import</span> <span class="nn">config</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">application</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/'</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">,</span> <span class="s">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">'GET'</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s">'OK'</span>
+    <span class="k">elif</span> <span class="n">request</span><span class="p">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">'POST'</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">data</span>
+        <span class="n">secret</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">APP_KEY</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+        <span class="n">digester</span> <span class="o">=</span> <span class="n">hmac</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">)</span>
+        <span class="n">calculated_signature</span> <span class="o">=</span> <span class="s">'sha256='</span> <span class="o">+</span> <span class="n">digester</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'X-Hub-Signature-256'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">calculated_signature</span> <span class="o">==</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'X-Hub-Signature-256'</span><span class="p">):</span>
+            <span class="n">subprocess</span><span class="p">.</span><span class="n">Popen</span><span class="p">(</span>
+            <span class="p">[</span><span class="s">'./perform-git-pull.sh {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">PROJECT_PATH</span><span class="p">)],</span> <span class="n">shell</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">'OK</span><span class="se">\n</span><span class="s">'</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">'ERROR</span><span class="se">\n</span><span class="s">'</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">application</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
+</code></pre></div></div>
+<p>I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running a simple <code class="language-plaintext highlighter-rouge">git pull</code> command in our repository but you might need it if you are doing something more complicated. And here is the contents of <code class="language-plaintext highlighter-rouge">perform-git-pull.sh</code> file:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nb">cd</span> <span class="nv">$1</span>
+git pull
+</code></pre></div></div>
+<p>We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.</p>
+
+<p>Create a new file <code class="language-plaintext highlighter-rouge">post_receiver.service</code> in <code class="language-plaintext highlighter-rouge">/etc/systemd/system</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># change &lt;user&gt; to your actual username
+[Unit]
+Description=post_receiver
+After=network.target multi-user.target
+
+[Service]
+User=&lt;user&gt;
+Environment="PYTHONPATH=/home/&lt;user&gt;/post_receiver/venv/bin/python"
+WorkingDirectory=/home/&lt;user&gt;/post_receiver
+ExecStart=/home/&lt;user&gt;/post_receiver/venv/bin/gunicorn -b 127.0.0.1:5000 -w 2 --log-file /home/&lt;user&gt;/post_receiver/post_receiver.log post_receiver
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div></div>
+
+<p>Make sure port <code class="language-plaintext highlighter-rouge">5000</code> is reachable from outside.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>ufw allow 5000
+<span class="nb">sudo </span>ufw <span class="nb">enable</span>
+</code></pre></div></div>
+
+<p>Finally, edit your nginx configuration, <code class="language-plaintext highlighter-rouge">/etc/nginx/sites-available/yoursite</code></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>location =  /postreceive/ {
+    proxy_pass          http://localhost:5000/;
+}
+</code></pre></div></div>
+
+<p>Start, restart the services</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl daemon-reload
+<span class="nb">sudo </span>systemctl start post_receiver
+<span class="nb">sudo </span>systemctl <span class="nb">enable </span>post_receiver
+<span class="nb">sudo </span>systemctl restart nginx
+</code></pre></div></div>
+
+<p>That’s it! <code class="language-plaintext highlighter-rouge">curl https://yourdomain.com/postreceive/</code> should return <code class="language-plaintext highlighter-rouge">"OK"</code> and we are ready to accept POST requests from GitHub.</p>
+
+<h3 id="notes-for-debugging">Notes for debugging</h3>
+<p>In case anything goes wrong, here are a few tips to debug:</p>
+<ul>
+  <li>Every GitHub Action produces a log that you can examine. Check them to see if anything is odd.</li>
+  <li>In the <em>Webhooks</em> tab, there is a sub-tab called <em>Recent Deliveries</em>. You can take a look at there to see the results of the requests from your hooks.</li>
+  <li>You can always test your code locally with <code class="language-plaintext highlighter-rouge">curl</code>:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ curl -i -X POST -H 'Content-Type: application/json' -d '{"foo": "bar", "bar": "baz"}' https://yourdomain.com/postreceive/
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>Happy hacking!</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-01-04T17:40:00+00:00">January 4, 2022</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Automatically+Build+and+Deploy+Your+Site+using+GitHub+Actions+and+Webhooks%20https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2022/01/01/stop-cat-pipeing.html" class="pagination--pager" title="Stop cat-pipe’ing, You Are Doing It Wrong!
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/01/01/stop-cat-pipeing.html" rel="permalink">Stop cat-pipe’ing, You Are Doing It Wrong!
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-01-01T15:00:00+00:00">January 1, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">cat some_file | grep some_pattern
+
+I’m sure that you run a command something like above at least once if you are using terminal. You know how cat and grep wo...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2021/12/24/first-blog-post.html" rel="permalink">First blog post
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-12-24T23:54:08+00:00">December 24, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Hello, World!* So here I am and welcome to my first blog. Having a personal space on the Internet has been a dream for me for years and I am happy that it fi…
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>
