@@ -1,0 +1,30 @@
+name: Jekyll site CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    # Use GitHub Actions' cache to shorten build times and decrease load on servers
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+
+    # Specify the target branch (optional)
+    - name: Jekyll Actions
+      uses: helaili/jekyll-action@2.2.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        keep_history: true
+        target_branch: 'gh-pages'

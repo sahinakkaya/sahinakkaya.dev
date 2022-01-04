@@ -63,6 +63,7 @@ author:
 
 masthead_title: "/home/sahin/"
 
+keep_files: [.git]
 # Build settings
 theme: minimal-mistakes-jekyll
 
