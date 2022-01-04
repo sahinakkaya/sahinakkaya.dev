@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-01-04T23:26:11+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Automatically Build and Deploy Your Site using GitHub Actions and Webhooks</title><link href="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html" rel="alternate" type="text/html" title="Automatically Build and Deploy Your Site using GitHub Actions and Webhooks" /><published>2022-01-04T17:40:00+00:00</published><updated>2022-01-04T17:40:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html">&lt;p&gt;In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-01-04T23:35:06+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Automatically Build and Deploy Your Site using GitHub Actions and Webhooks</title><link href="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html" rel="alternate" type="text/html" title="Automatically Build and Deploy Your Site using GitHub Actions and Webhooks" /><published>2022-01-04T17:40:00+00:00</published><updated>2022-01-04T17:40:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/04/build-and-deploy-automatically.html">&lt;p&gt;In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough.&lt;/p&gt;
 
 &lt;h2 id=&quot;introduction-to-github-actions-and-webhooks&quot;&gt;Introduction to GitHub Actions and Webhooks&lt;/h2&gt;
 &lt;p&gt;Let me start by explaining what are GitHub Actions and GitHub Webhooks.&lt;/p&gt;
@@ -59,21 +59,21 @@
 &lt;p&gt;We are done with the Actions part. You can see the final code &lt;a href=&quot;https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml&quot;&gt;here&lt;/a&gt;. When you are also done with the code, just push it to trigger the action.&lt;/p&gt;
 
 &lt;h3 id=&quot;setting-up-the-webhook-and-related-endpoint&quot;&gt;Setting up the Webhook and related endpoint&lt;/h3&gt;
-&lt;p&gt;Now that we set up our Action to build the site, we need to let our server know about the changes so that we can pull them.&lt;/p&gt;
+&lt;p&gt;Now that we set up our Action to build the site, we need to let our server know about the changes so that we it pull the changes.&lt;/p&gt;
 
 &lt;h4 id=&quot;creating-a-webhook-from-github&quot;&gt;Creating a Webhook from GitHub&lt;/h4&gt;
 
 &lt;p&gt;To add a Webhook, open your repository in browser and navigate to &lt;em&gt;‘Settings &amp;gt; Webhooks’&lt;/em&gt; and click &lt;em&gt;‘Add Webhook’&lt;/em&gt;. Fill in the form with appropriate values. Here is an example:
 &lt;img src=&quot;/assets/images/gh-actions-and-webhooks/add-webhook.png&quot; alt=&quot;Webhook form example&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;This is all you have to do from GitHub. Now, whenever there is a &lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;push&lt;/code&gt;&lt;/em&gt; event to our repository, GitHub will send a POST request to our &lt;em&gt;payload url&lt;/em&gt; with the details.&lt;/p&gt;
+&lt;p&gt;This is all you have to do from GitHub. Now, whenever there is a &lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;push&lt;/code&gt;&lt;/em&gt; event to your repository, GitHub will send a POST request to your &lt;em&gt;payload url&lt;/em&gt; with the details.&lt;/p&gt;
 
 &lt;p class=&quot;notice--info&quot;&gt;&lt;strong&gt;Note:&lt;/strong&gt; Our Action is configured to push to a branch in our repository, so it will also trigger this hook and we will catch it.&lt;/p&gt;
 
 &lt;h4 id=&quot;creating-an-endpoint-to-handle-the-requests&quot;&gt;Creating an endpoint to handle the requests&lt;/h4&gt;
-&lt;p&gt;I will use &lt;a href=&quot;https://flask.palletsprojects.com/en/2.0.x/&quot;&gt;Flask&lt;/a&gt; framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job.&lt;/p&gt;
+&lt;p&gt;I will use &lt;a href=&quot;https://flask.palletsprojects.com/en/2.0.x/&quot;&gt;Flask&lt;/a&gt; framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job: Validate the secret keys and run a specific code.&lt;/p&gt;
 
-&lt;p&gt;Create a new project, and a virtual environment:&lt;/p&gt;
+&lt;p&gt;Let’s start by creating a new project, and a virtual environment:&lt;/p&gt;
 &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mdkir post_receiver
 &lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;post_receiver
 python3 &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; venv venv
@@ -130,8 +130,10 @@ git pull
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.&lt;/p&gt;
 
-&lt;p&gt;Create a new file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_receiver.service&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/systemd/system&lt;/code&gt;:&lt;/p&gt;
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# change &amp;lt;user&amp;gt; to your actual username
+&lt;p&gt;Create a new file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;post_receiver.service&lt;/code&gt; in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/systemd/system/&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;#/etc/systemd/system/post_receiver.service
+
+# change &amp;lt;user&amp;gt; to your actual username
 [Unit]
 Description=post_receiver
 After=network.target multi-user.target

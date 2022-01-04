@@ -371,21 +371,21 @@
 <p>We are done with the Actions part. You can see the final code <a href="https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml">here</a>. When you are also done with the code, just push it to trigger the action.</p>
 
 <h3 id="setting-up-the-webhook-and-related-endpoint">Setting up the Webhook and related endpoint</h3>
-<p>Now that we set up our Action to build the site, we need to let our server know about the changes so that we can pull them.</p>
+<p>Now that we set up our Action to build the site, we need to let our server know about the changes so that we it pull the changes.</p>
 
 <h4 id="creating-a-webhook-from-github">Creating a Webhook from GitHub</h4>
 
 <p>To add a Webhook, open your repository in browser and navigate to <em>‘Settings &gt; Webhooks’</em> and click <em>‘Add Webhook’</em>. Fill in the form with appropriate values. Here is an example:
 <img src="/assets/images/gh-actions-and-webhooks/add-webhook.png" alt="Webhook form example" /></p>
 
-<p>This is all you have to do from GitHub. Now, whenever there is a <em><code class="language-plaintext highlighter-rouge">push</code></em> event to our repository, GitHub will send a POST request to our <em>payload url</em> with the details.</p>
+<p>This is all you have to do from GitHub. Now, whenever there is a <em><code class="language-plaintext highlighter-rouge">push</code></em> event to your repository, GitHub will send a POST request to your <em>payload url</em> with the details.</p>
 
 <p class="notice--info"><strong>Note:</strong> Our Action is configured to push to a branch in our repository, so it will also trigger this hook and we will catch it.</p>
 
 <h4 id="creating-an-endpoint-to-handle-the-requests">Creating an endpoint to handle the requests</h4>
-<p>I will use <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a> framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job.</p>
+<p>I will use <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a> framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job: Validate the secret keys and run a specific code.</p>
 
-<p>Create a new project, and a virtual environment:</p>
+<p>Let’s start by creating a new project, and a virtual environment:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mdkir post_receiver
 <span class="nb">cd </span>post_receiver
 python3 <span class="nt">-m</span> venv venv
@@ -442,8 +442,10 @@ git pull
 </code></pre></div></div>
 <p>We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.</p>
 
-<p>Create a new file <code class="language-plaintext highlighter-rouge">post_receiver.service</code> in <code class="language-plaintext highlighter-rouge">/etc/systemd/system</code>:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># change &lt;user&gt; to your actual username
+<p>Create a new file <code class="language-plaintext highlighter-rouge">post_receiver.service</code> in <code class="language-plaintext highlighter-rouge">/etc/systemd/system/</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#/etc/systemd/system/post_receiver.service
+
+# change &lt;user&gt; to your actual username
 [Unit]
 Description=post_receiver
 After=network.target multi-user.target
