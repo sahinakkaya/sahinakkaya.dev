@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-01-04T16:51:05+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Stop cat-pipe’ing, You Are Doing It Wrong!</title><link href="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html" rel="alternate" type="text/html" title="Stop cat-pipe’ing, You Are Doing It Wrong!" /><published>2022-01-01T15:00:00+00:00</published><updated>2022-01-01T15:00:00+00:00</updated><id>https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing</id><content type="html" xml:base="https://sahinakkaya.dev/2022/01/01/stop-cat-pipeing.html">&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;some_file | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;some_pattern
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;I’m sure that you run a command something like above at least once if you are using terminal. You know how &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grep&lt;/code&gt; works and you also know what pipe (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;|&lt;/code&gt;) does. So you naturally combine all of these to make the job done. I was also doing it this way. What I didn’t know is that &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;grep&lt;/code&gt; already accepts file as an argument. So the above command could be rewritten as:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;some_pattern some_file
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;… which can make you save a few keystrokes and a few nanoseconds of CPU cycles. Phew! Not a big deal if you are not working files that contains GBs of data, right? I agree but you should still use the latter command because it will help you solve some other problems better. Here is a real life scenario: You want to search for some specific pattern in all the files in a directory.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If you use the first approach, you may end up running commands like this:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;❯ &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+ config.lua   Git.lua          init.lua   markdown.lua   palette.lua      util.lua
+ diff.lua     highlights.lua   LSP.lua    Notify.lua     Treesitter.lua   Whichkey.lua
+
+❯ &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;config.lua | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light
+❯ &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;diff.lua | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light
+❯ &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;Git.lua | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light
+❯ &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;highlights.lua | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light
+  Pmenu &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.popup_back &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+  CursorLineNr &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, style &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bold&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+  Search &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.search_blue &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+  IncSearch &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.search_blue &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+
+❯ &lt;span class=&quot;nb&quot;&gt;cat &lt;/span&gt;init.lua | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light
+&lt;span class=&quot;nb&quot;&gt;local &lt;/span&gt;highlights &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; require &lt;span class=&quot;s2&quot;&gt;&quot;onedarker.highlights&quot;&lt;/span&gt;
+  highlights,
+❯ &lt;span class=&quot;c&quot;&gt;# You still have a lot to do :/&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;If you use the second approach, you will immediately realize that you can send all the files with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*&lt;/code&gt; operator and you will finish the job with just one command (2 if you include mandatory &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ls&lt;/code&gt; :D):&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;❯ &lt;span class=&quot;nb&quot;&gt;ls&lt;/span&gt;
+ config.lua   Git.lua          init.lua   markdown.lua   palette.lua      util.lua
+ diff.lua     highlights.lua   LSP.lua    Notify.lua     Treesitter.lua   Whichkey.lua
+
+❯ &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;light &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+highlights.lua:  Pmenu &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.popup_back &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+highlights.lua:  CursorLineNr &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, style &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bold&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+highlights.lua:  Search &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.search_blue &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+highlights.lua:  IncSearch &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.search_blue &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+init.lua:local highlights &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; require &lt;span class=&quot;s2&quot;&gt;&quot;onedarker.highlights&quot;&lt;/span&gt;
+init.lua:  highlights,
+LSP.lua:  NvimTreeNormal &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.alt_bg &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+LSP.lua:  LirFloatNormal &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray, &lt;span class=&quot;nb&quot;&gt;bg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.alt_bg &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+markdown.lua:  markdownIdDelimiter &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+markdown.lua:  markdownLinkDelimiter &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;fg&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; C.light_gray &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+palette.lua:  light_gray &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;#abb2bf&quot;&lt;/span&gt;,
+palette.lua:  light_red &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;#be5046&quot;&lt;/span&gt;,
+util.lua:local &lt;span class=&quot;k&quot;&gt;function &lt;/span&gt;highlight&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;group, properties&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+util.lua:    &lt;span class=&quot;s2&quot;&gt;&quot;highlight&quot;&lt;/span&gt;,
+util.lua:    highlight&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;group, properties&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Isn’t this neat? You might say that &lt;em&gt;“This is cheating! You are using a wild card, of course it will be easier.”&lt;/em&gt; Well, yes. Technically I could use the same wild card in the first command like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cat * | grep light&lt;/code&gt; but:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;I figured that out only after using wild card in the second command. So I think it is does not feel natural.&lt;/li&gt;
+  &lt;li&gt;It is still not giving the same output. Try and see the difference! &lt;a href=&quot;##&quot; title=&quot;You will not be able to see which file contains which line. 'cat' will just concatenate all the input.&quot;&gt;*&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Şahin Akkaya</name></author><summary type="html">cat some_file | grep some_pattern I’m sure that you run a command something like above at least once if you are using terminal. You know how cat and grep works and you also know what pipe (|) does. So you naturally combine all of these to make the job done. I was also doing it this way. What I didn’t know is that grep already accepts file as an argument. So the above command could be rewritten as: grep some_pattern some_file</summary></entry><entry><title type="html">First blog post</title><link href="https://sahinakkaya.dev/2021/12/24/first-blog-post.html" rel="alternate" type="text/html" title="First blog post" /><published>2021-12-24T23:54:08+00:00</published><updated>2021-12-24T23:54:08+00:00</updated><id>https://sahinakkaya.dev/2021/12/24/first-blog-post</id><content type="html" xml:base="https://sahinakkaya.dev/2021/12/24/first-blog-post.html">&lt;style&gt;
+.ab {
+  font-size: 1.3em;
+  line-height:0;
+  top:0;
+}
+.cd {
+
+  text-decoration: none;
+}
+&lt;/style&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hello, World!&lt;/code&gt;&lt;/em&gt;&lt;a href=&quot;##&quot; title=&quot;I think I just wrote the best first sentence I could write as a programmer :D&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;
+So here I am and welcome to my first blog. Having a personal space on the Internet has been a dream for me for years and I am happy that it finally have come true. You might think that I could sign-up for a social media platform and my profile would be a personal space for me but no. I just don’t feel comfortable with that way. This has been the case since my childhood and also the reason why I don’t use Facebook, Instagram or any other social media. If you think you found me on these platforms, I would say it is not me. I might write another post about why I don’t like social media but I will cut this one here.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-i-wanted-to-start-blogging&quot;&gt;Why I wanted to start blogging?&lt;/h2&gt;
+&lt;p&gt;There are several reasons for starting my own site and blogging, but I can list the most important ones as follows:&lt;/p&gt;
+
+&lt;h3 id=&quot;giving-back-to-community&quot;&gt;Giving back to community&lt;/h3&gt;
+&lt;p&gt;I use the software developed and brought by the community every day. The moment I power on my computer I start using Free Software. It really amazes me to see the work produced by people who do not know each other at all. For example, I did not even write a single line of code for this site. If Free Software didn’t exist, I’d either have to spend money and use a platform that I have limited control over, or waste my time and build a site with a possibly worse design than this one&lt;a href=&quot;##&quot; title=&quot;swh&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;. In return for this, I want to give back to the community. For me, the way to give back to the community so far has been to share the projects I’ve done and archive the things I learn every day in a repository called &lt;a href=&quot;https://github.com/Asocia/til&quot;&gt;TIL&lt;/a&gt;&lt;a href=&quot;##&quot; title=&quot;Today I Learned&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;. But some of the til’s I’ve written recently are getting lengthy and I think they deserve their own posts. So instead of writing long til’s, I will blog what I learned here.&lt;/p&gt;
+
+&lt;h3 id=&quot;archiving-the-memories&quot;&gt;Archiving the memories&lt;/h3&gt;
+&lt;p&gt;I like to go over what I have done in the past once in a while. Blogging is perfect way to do this. I still read my diaries that I wrote in the past and they are fun. But I promise I will keep these posts more formal than my diaries&lt;a href=&quot;##&quot; title=&quot;swh&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h3 id=&quot;pushing-myself-to-do-something-useful&quot;&gt;Pushing myself to do something useful&lt;/h3&gt;
+&lt;p&gt;At the end of every year, I sit on my desk and think about what I did in that year. I generally don’t like the result because I fail to keep some of my resolutions for that year. Setting up a personal website was one of my resolutions for 2021 and it looks like I manage to keep it&lt;a href=&quot;##&quot; title=&quot;hooray!&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;&lt;a href=&quot;##&quot; title=&quot;swh&quot; class=&quot;cd&quot;&gt;&lt;sup class=&quot;ab&quot;&gt;*&lt;/sup&gt;&lt;/a&gt;. Unfortunately, I can’t always keep my spirits up. Sometimes I just do nothing and all the time passes. Hopefully, the feeling that I have to write something will help me get out of bad mood at such times.&lt;/p&gt;
+
+&lt;h3 id=&quot;improving-my-writing-skills&quot;&gt;Improving my writing skills&lt;/h3&gt;
+&lt;p&gt;Last but not least, I want to improve my writing. Even though I don’t use a formal language while writing here, I think it will help me improve my writing skills.&lt;/p&gt;
+
+&lt;h2 id=&quot;final-words&quot;&gt;Final words&lt;/h2&gt;
+&lt;p&gt;While writing this post I already come up with some new topics to write but I think they need their own posts.&lt;/p&gt;
+
+&lt;p&gt;Subscribe to my &lt;a href=&quot;/feed.xml&quot;&gt;&lt;i class=&quot;fas fa-fw fa-rss-square&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;RSS Feed&lt;/a&gt; to not miss them. You know RSS, right? I recently started using it and it is the best way to consume content. Do yourself a favor and search it if you don’t know. I will probably write something about it in the following blog posts. That’s all from me and thank you for reading. See you next time!&lt;/p&gt;</content><author><name>Şahin Akkaya</name></author><summary type="html">Hello, World!* So here I am and welcome to my first blog. Having a personal space on the Internet has been a dream for me for years and I am happy that it fi...</summary></entry></feed>
