@@ -7,7 +7,7 @@ var store = [{
       },{
         "title": "Stop cat-pipe'ing, You Are Doing It Wrong!",
         "excerpt":"cat some_file | grep some_pattern I’m sure that you run a command something like above at least once if you are using terminal. You know how cat and grep works and you also know what pipe (|) does. So you naturally combine all of these to make the job done....","categories": [],
-        "tags": [],
+        "tags": ["cat","grep","linux","command-line"],
         "url": "/2022/01/01/stop-cat-pipeing.html",
         "teaser": null
       }]
