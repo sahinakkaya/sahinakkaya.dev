@@ -285,7 +285,7 @@ tt, code, kbd, samp, pre { font-family: Monaco, Consolas, "Lucida Console", mono
 
 pre { overflow-x: auto; /* add scrollbars to wide code blocks*/ }
 
-p > code, a > code, li > code, figcaption > code, td > code { padding-top: 0.1rem; padding-bottom: 0.1rem; font-size: 0.8em; background: #110e0e; border-radius: 4px; }
+p > code, a > code, li > code, figcaption > code, td > code { padding-top: 0.1rem; padding-bottom: 0.1rem; font-size: 0.8em; background: #21181e; border-radius: 4px; }
 
 p > code:before, p > code:after, a > code:before, a > code:after, li > code:before, li > code:after, figcaption > code:before, figcaption > code:after, td > code:before, td > code:after { letter-spacing: -0.2em; content: "\00a0"; /* non-breaking space*/ }
 
