@@ -371,7 +371,7 @@
 <p>We are done with the Actions part. You can see the final code <a href="https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml">here</a>. When you are also done with the code, just push it to trigger the action.</p>
 
 <h3 id="setting-up-the-webhook-and-related-endpoint">Setting up the Webhook and related endpoint</h3>
-<p>Now that we set up our Action to build the site, we need to let our server know about the changes so that we it pull the changes.</p>
+<p>Now that we set up our Action to build the site, we need to let our server know about the changes so that it can pull the changes.</p>
 
 <h4 id="creating-a-webhook-from-github">Creating a Webhook from GitHub</h4>
 
@@ -434,10 +434,11 @@ python3 <span class="nt">-m</span> venv venv
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">application</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
 </code></pre></div></div>
-<p>I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running a simple <code class="language-plaintext highlighter-rouge">git pull</code> command in our repository but you might need it if you are doing something more complicated. And here is the contents of <code class="language-plaintext highlighter-rouge">perform-git-pull.sh</code> file:</p>
+<p>I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running simple git commands in our repository but you might need it if you are doing something more complicated. And here is the contents of <code class="language-plaintext highlighter-rouge">perform-git-pull.sh</code> file:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
 <span class="nb">cd</span> <span class="nv">$1</span>
+git checkout gh-pages
 git pull
 </code></pre></div></div>
 <p>We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.</p>
