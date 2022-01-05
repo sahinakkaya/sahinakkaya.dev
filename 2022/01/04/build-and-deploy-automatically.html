@@ -424,12 +424,12 @@ python3 <span class="nt">-m</span> venv venv
         <span class="n">digester</span> <span class="o">=</span> <span class="n">hmac</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">)</span>
         <span class="n">calculated_signature</span> <span class="o">=</span> <span class="s">'sha256='</span> <span class="o">+</span> <span class="n">digester</span><span class="p">.</span><span class="n">hexdigest</span><span class="p">()</span>
         <span class="n">signature</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'X-Hub-Signature-256'</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">calculated_signature</span> <span class="o">==</span> <span class="n">request</span><span class="p">.</span><span class="n">headers</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'X-Hub-Signature-256'</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">calculated_signature</span> <span class="o">==</span> <span class="n">signature</span><span class="p">:</span>
             <span class="n">subprocess</span><span class="p">.</span><span class="n">Popen</span><span class="p">(</span>
-            <span class="p">[</span><span class="s">'./perform-git-pull.sh {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">PROJECT_PATH</span><span class="p">)],</span> <span class="n">shell</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-            <span class="k">return</span> <span class="s">'OK</span><span class="se">\n</span><span class="s">'</span>
+            <span class="p">[</span><span class="s">'./perform-git-pull.sh'</span><span class="p">,</span> <span class="n">config</span><span class="p">.</span><span class="n">PROJECT_PATH</span><span class="p">],</span> <span class="n">shell</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">'OK'</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="s">'ERROR</span><span class="se">\n</span><span class="s">'</span>
+            <span class="k">return</span> <span class="s">'Error'</span>
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
     <span class="n">application</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
