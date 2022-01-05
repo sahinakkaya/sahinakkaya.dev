@@ -18,6 +18,10 @@ $base0d: #82aaff;
 $base0e: #c792ea;
 $base0f: #ff5370;
 
+
+$code-background-color: mix($base00, $base01, 80%);
+$code-background-color-dark:  mix($base00, $base01, 85%);
+
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
 
