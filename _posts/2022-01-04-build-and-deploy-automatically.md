@@ -62,7 +62,7 @@ That's it! We have created our first Action. When we push this change, GitHub wi
 We are done with the Actions part. You can see the final code [here](https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml). When you are also done with the code, just push it to trigger the action.
 
 ### Setting up the Webhook and related endpoint
-Now that we set up our Action to build the site, we need to let our server know about the changes so that we it pull the changes. 
+Now that we set up our Action to build the site, we need to let our server know about the changes so that it can pull the changes. 
 
 
 #### Creating a Webhook from GitHub
@@ -121,21 +121,22 @@ def index():
         digester = hmac.new(secret, content, hashlib.sha256)
         calculated_signature = 'sha256=' + digester.hexdigest()
         signature = request.headers.get('X-Hub-Signature-256')
-        if calculated_signature == request.headers.get('X-Hub-Signature-256'):
+        if calculated_signature == signature:
             subprocess.Popen(
-            ['./perform-git-pull.sh {}'.format(config.PROJECT_PATH)], shell = True)
-            return 'OK\n'
+            ['./perform-git-pull.sh', config.PROJECT_PATH])
+            return 'OK'
         else:
-            return 'ERROR\n'
+            return 'Error'
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
 ```
-I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running a simple `git pull` command in our repository but you might need it if you are doing something more complicated. And here is the contents of `perform-git-pull.sh` file:
+I will not go into details explaining what each line does. Basically, we are checking if the request is a POST request and if so we are comparing the secret keys to make sure that the request is coming from GitHub. In our case, this is not too important because when the keys match we are running simple git commands in our repository but you might need it if you are doing something more complicated. And here is the contents of `perform-git-pull.sh` file:
 ```bash
 #!/bin/bash
 
 cd $1
+git checkout gh-pages
 git pull
 ```
 We are almost done! All we need to do is create a service to automatically run our code and let nginx handle our endpoint correctly.
