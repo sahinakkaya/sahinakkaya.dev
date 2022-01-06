@@ -78,7 +78,7 @@ This is all you have to do from GitHub. Now, whenever there is a *`push`* event 
 #### Creating an endpoint to handle the requests
 I will use [Flask](https://flask.palletsprojects.com/en/2.0.x/) framework to handle the post requests coming to our endpoint. You can use whatever programming language or framework you want. It will be very simple code with just one job: Validate the secret keys and run a specific code.
 
-Let's start by creating a new project, and a virtual environment:
+Let's start by creating a new project and a virtual environment:
 ```bash
 mdkir post_receiver
 cd post_receiver
