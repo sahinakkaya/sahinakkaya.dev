@@ -1,6 +1,6 @@
 ---
 layout: single
-title: About
+title: Contact
 permalink: /contact/
 ---
 You can contact me via:
