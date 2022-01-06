@@ -26,3 +26,7 @@ $code-background-color-dark:  mix($base00, $base01, 85%);
 @import "minimal-mistakes"; // main partials
 
 
+::selection{
+  background: #004DAA;
+}
+
