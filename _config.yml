@@ -55,10 +55,21 @@ author:
   name     : "Şahin Akkaya"
   avatar   : "/assets/images/logo.jpg"
   bio      : "A perfectionist who likes to tinker everything until it is just right."
-  stackoverflow: 9608759
-  github:  Asocia
-  twitter: sahinakkayadev
   location : "Istanbul, Turkey"
+
+  links:
+    - label: "Asocia"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/Asocia"
+    - label: "Asocia"
+      icon: "fab fa-fw fa-stack-overflow"
+      url: "https://stackoverflow.com/users/9608759"
+    - label: "@sahinakkayadev"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/sahinakkayadev"
+    - label: "Resume"
+      icon: "fas fa-fw fa-id-card"
+      url: "/assets/docs/resume.pdf"
 
 
 masthead_title: "/home/sahin/"
