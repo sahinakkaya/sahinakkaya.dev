@@ -16,4 +16,10 @@ var store = [{
         "tags": ["github-actions","github-webhooks","ci-cd"],
         "url": "/2022/01/04/build-and-deploy-automatically.html",
         "teaser": null
+      },{
+        "title": "Using ffmpeg for Simple Video Editing",
+        "excerpt":"Story Today, I have recorded a video for one of my classes and I was required to upload it till midnight. The video was perfect except for a few seconds where I misspelled some words and started again. I had to remove that part from the video before uploading it....","categories": [],
+        "tags": ["cli","ffmpeg"],
+        "url": "/2022/01/21/ffmpeg-to-rescue.html",
+        "teaser": null
       }]
