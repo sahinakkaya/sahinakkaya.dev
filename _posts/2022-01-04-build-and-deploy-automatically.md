@@ -120,8 +120,8 @@ def index():
         secret = bytes(config.APP_KEY, 'utf-8')
         digester = hmac.new(secret, content, hashlib.sha256)
         calculated_signature = 'sha256=' + digester.hexdigest()
-        signature = request.headers.get('X-Hub-Signature-256')
-        if calculated_signature == signature:
+        actual_signature = request.headers.get('X-Hub-Signature-256')
+        if calculated_signature == actual_signature:
             subprocess.Popen(
             ['./perform-git-pull.sh', config.PROJECT_PATH])
             return 'OK'
