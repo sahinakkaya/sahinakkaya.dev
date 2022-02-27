@@ -22,4 +22,10 @@ var store = [{
         "tags": ["cli","ffmpeg"],
         "url": "/2022/01/21/ffmpeg-to-rescue.html",
         "teaser": null
+      },{
+        "title": "SSH into Machine That Is Behind a Private Network",
+        "excerpt":"Story I believe there is always a “tech support person” in every home. Everyone knows that when there is a problem with any electronic device, they should ask this person. I am the tech support in our house. Today, I had to fix a problem in our desktop. Since I...","categories": [],
+        "tags": ["ssh","private-network","remote-port-forwarding"],
+        "url": "/2022/02/26/ssh-into-machine-that-is-behind-private-network.html",
+        "teaser": null
       }]
