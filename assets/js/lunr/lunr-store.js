@@ -28,4 +28,10 @@ var store = [{
         "tags": ["ssh","private-network","remote-port-forwarding"],
         "url": "/2022/02/26/ssh-into-machine-that-is-behind-private-network.html",
         "teaser": null
+      },{
+        "title": "Creating a *Useless* User",
+        "excerpt":"Story In my previous post, I explained how to do port forwarding to access some machine behind private network. I will use this method to fix some issues in our desktop at home or my girlfriend’s computer. Now, of course I don’t want to give them access to my server....","categories": [],
+        "tags": ["linux","permissions","privileges"],
+        "url": "/2022/02/27/creating-a-useless-user.html",
+        "teaser": null
       }]
