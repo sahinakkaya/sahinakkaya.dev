@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-02-27T14:57:40+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Creating a *Useless* User</title><link href="https://sahinakkaya.dev/2022/02/27/creating-a-useless-user.html" rel="alternate" type="text/html" title="Creating a *Useless* User" /><published>2022-02-27T13:40:00+00:00</published><updated>2022-02-27T13:40:00+00:00</updated><id>https://sahinakkaya.dev/2022/02/27/creating-a-useless-user</id><content type="html" xml:base="https://sahinakkaya.dev/2022/02/27/creating-a-useless-user.html">&lt;h2 id=&quot;story&quot;&gt;Story&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://sahinakkaya.dev/feed.xml" rel="self" type="application/atom+xml" /><link href="https://sahinakkaya.dev/" rel="alternate" type="text/html" /><updated>2022-03-03T17:01:24+00:00</updated><id>https://sahinakkaya.dev/feed.xml</id><title type="html">Şahin Akkaya’s Personal Page</title><subtitle>Şahin Akkaya's personal blog - a perfectionist who likes to tinker everything until it is just right. Get ready to find some sweet tips that will boost your productivity and make you fall in love with your computer.</subtitle><author><name>Şahin Akkaya</name></author><entry><title type="html">Never Get Trapped in Grub Rescue Again!</title><link href="https://sahinakkaya.dev/2022/03/03/never-get-trapped-in-grub-rescue-again.html" rel="alternate" type="text/html" title="Never Get Trapped in Grub Rescue Again!" /><published>2022-03-03T00:46:00+00:00</published><updated>2022-03-03T00:46:00+00:00</updated><id>https://sahinakkaya.dev/2022/03/03/never-get-trapped-in-grub-rescue-again</id><content type="html" xml:base="https://sahinakkaya.dev/2022/03/03/never-get-trapped-in-grub-rescue-again.html">&lt;p&gt;Anytime I install a new system on my machine, I pray God for nothing bad happens. But it usually happens. When I reboot, I find myself in the “Grub rescue” menu and I don’t know how to fix things from that point.&lt;/p&gt;
+
+&lt;p&gt;I go into the live environment and run some random commands that I found on the internet and hope for the best.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/grub-rescue/random-bullshit.jpg&quot; alt=&quot;me trying to fix grub&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;What a nice way to shoot myself in the foot! But this time is different. This time, I f*cked up so much that even the random commands on the internet could not help me. I was on my own and I needed to figure out what is wrong with my system. Let me tell you what I did:&lt;/p&gt;
+
+&lt;p&gt;I decided to install another OS just to try it in a real machine. I wanted to shrink one of my partitions to create a space for the new system. I run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fdisk /dev/sdb&lt;/code&gt;, the very first message that it tells me was&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;This disk is currently in use - repartitioning is probably a bad idea. It's recommended to umount all file systems, and swapoff all swap partitions on this disk.&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Yes, it just screams &lt;strong&gt;&lt;em&gt;“Do not do it!”&lt;/em&gt;&lt;/strong&gt; but come on. I will not try to shrink the partition I am using(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt;). So it should not be a problem. I ignored the message and shrink it anyway. No problem. Installed and tested the new OS a little bit. Time to reboot and hope for the best. And of course it did not boot. What would I even expecting?&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/grub-rescue/cj.png&quot; alt=&quot;ah sh*t here we go again&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As always, I booted into a live environment and run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;boot-repair&lt;/code&gt; command. It was always working but this time… Even after finishing the operation successfully I could not boot into neither Arch nor Ubuntu (the two systems I had previously).&lt;/p&gt;
+
+&lt;p&gt;Arch was originally mounted in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt; and Ubuntu was &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sda2&lt;/code&gt;. Considering the fact that I only messed with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb&lt;/code&gt;, I should be able to boot Ubuntu, right? Well, yeah. Technically I did boot into Ubuntu but I didn’t see login screen. It was dropping me into something called “Emergency mode” which just makes me panic! &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo update-grub&lt;/code&gt;… Nope. Same thing. Arch does not boot and Ubuntu partially boots.&lt;/p&gt;
+
+&lt;p&gt;Let me tell you what the problem was and how my ignorance made it worse:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;While installing the new system, I saw a partition &lt;strong&gt;labelled&lt;/strong&gt; “Microsoft Basic Data”. I deleted it thinking it is not required because I don’t use W*ndows. It turns out, it was my &lt;em&gt;boot&lt;/em&gt; partition for Arch, just labelled incorrectly… Big lolz :D But we will see this is not even important because I had to rewrite my boot partition anyway.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;My Arch was installed in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt;. When I created a new partition and installed the new system, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt; was shifted to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb5&lt;/code&gt; even though I did not ask for it. But the grub configuration to boot my system was still pointing to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt;. That was the reason why Arch does not boot. It was trying to boot from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb3&lt;/code&gt;. So I had to recreate grub configuration and reinstall grub to fix it. I run the following commands that I found &lt;a href=&quot;https://www.jeremymorgan.com/tutorials/linux/how-to-reinstall-boot-loader-arch-linux/&quot;&gt;here&lt;/a&gt; in a live Arch environment:
+    &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;mkdir&lt;/span&gt; /mnt/arch
+mount &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; auto /dev/sdb5 /mnt/arch
+arch-chroot /mnt/arch
+mount &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; auto /dev/sdb4 /boot/efi
+os-prober
+grub-mkconfig &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; /boot/grub/grub.cfg
+grub-install &lt;span class=&quot;nt&quot;&gt;--efi-directory&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;/boot/efi &lt;span class=&quot;nt&quot;&gt;--target&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;x86_64-efi /dev/sdb
+&lt;span class=&quot;nb&quot;&gt;exit
+&lt;/span&gt;reboot
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+
+    &lt;p&gt;And it fixed my grub. I can now boot into Arch, hooray!&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Ubuntu was not still booting properly. I checked the logs with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;journalctl -xb&lt;/code&gt; and saw something related with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb&lt;/code&gt;. Ubuntu was installed in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sda2&lt;/code&gt;, why &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb&lt;/code&gt; should be a problem? Then I remembered something. Back in times when I was using Ubuntu, I was using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb1&lt;/code&gt; as a secondary storage. So I had a configuration where it automatically mounts &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb1&lt;/code&gt; on startup. Since I messed with &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sdb1&lt;/code&gt; , it was failing to mount it. I opened &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/fstab&lt;/code&gt;, and deleted the related line. Bingo! It started booting properly.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/images/grub-rescue/hackerman.jpg&quot; alt=&quot;i am something of a hackerman myself&quot; /&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;I started feeling like Hackerman, and I said to myself &lt;em&gt;“You know what, Imma fix everything.”&lt;/em&gt; I had a very sh*tty grub menu with useless grub entries from old systems that I don’t use anymore. The UEFI also had the same problem. It had ridiculous amount of boot entries that most of them are just trash.&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;/assets/images/grub-rescue/shitty-uefi.jpg&quot; alt=&quot;the pictures i took while trying to figure out which boot options are useless&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;These are the pictures I took for reference while trying to figure out which boot options are useless. Sorry for the bad quality. I didn’t think I would use them in a blog post.&lt;/p&gt;
+
+    &lt;ul&gt;
+      &lt;li&gt;While trying to fix the previous problems, I’ve spent enough time in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/boot/efi&lt;/code&gt; directory that make me understand where these grub entries are coming from. There were a lot of files belong to old systems. I simply deleted them and updated grub. All of the bad entries were gone. I want to draw your attention here: &lt;em&gt;I did not search for how to delete the unused grub entries. I just knew deleting their directories from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/boot/efi&lt;/code&gt; will do. I am doing this sh*t! (Another hackerman moment :D )&lt;/em&gt;&lt;/li&gt;
+      &lt;li&gt;In order to delete useless boot options from UEFI menu, I used &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;efibootmgr&lt;/code&gt;. I searched for it on the internet, of course!
+        &lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;efibootmgr &lt;span class=&quot;nt&quot;&gt;-v&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Check which entries you want to delete, say it is 0003.&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;efibootmgr &lt;span class=&quot;nt&quot;&gt;-b&lt;/span&gt; 0003 &lt;span class=&quot;nt&quot;&gt;-B&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# This will delete third boot option. &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;        &lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;And finally! I know everything about how all these work. Another shady part of Linux is clear for me. Now:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/grub-rescue/quote.jpg&quot; alt=&quot;Give me a ruined computer and an Arch ISO, and I shall fix it for you.&quot; /&gt;&lt;/p&gt;</content><author><name>Şahin Akkaya</name></author><category term="linux" /><category term="grub" /><category term="partition" /><category term="uefi" /><summary type="html">Anytime I install a new system on my machine, I pray God for nothing bad happens. But it usually happens. When I reboot, I find myself in the “Grub rescue” menu and I don’t know how to fix things from that point.</summary></entry><entry><title type="html">Creating a *Useless* User</title><link href="https://sahinakkaya.dev/2022/02/27/creating-a-useless-user.html" rel="alternate" type="text/html" title="Creating a *Useless* User" /><published>2022-02-27T13:40:00+00:00</published><updated>2022-02-27T13:40:00+00:00</updated><id>https://sahinakkaya.dev/2022/02/27/creating-a-useless-user</id><content type="html" xml:base="https://sahinakkaya.dev/2022/02/27/creating-a-useless-user.html">&lt;h2 id=&quot;story&quot;&gt;Story&lt;/h2&gt;
 &lt;p&gt;In my &lt;a href=&quot;/2022/02/26/ssh-into-machine-that-is-behind-private-network.html&quot;&gt;previous post&lt;/a&gt;, I explained how to do port forwarding to access some machine behind private network. I will use this method to fix some issues in our desktop at home or my girlfriend’s computer. Now, of course I don’t want to give them access to my server. But they also need to have a user in my server to be able to perform port forwarding via ssh. So I wanted to create a user with least privileges to make sure nothing goes wrong.&lt;/p&gt;
 
 &lt;h2 id=&quot;the-solution&quot;&gt;The solution&lt;/h2&gt;

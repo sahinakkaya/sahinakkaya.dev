@@ -34,4 +34,10 @@ var store = [{
         "tags": ["linux","permissions","privileges"],
         "url": "/2022/02/27/creating-a-useless-user.html",
         "teaser": null
+      },{
+        "title": "Never Get Trapped in Grub Rescue Again!",
+        "excerpt":"Anytime I install a new system on my machine, I pray God for nothing bad happens. But it usually happens. When I reboot, I find myself in the “Grub rescue” menu and I don’t know how to fix things from that point. I go into the live environment and run...","categories": [],
+        "tags": ["linux","grub","partition","uefi"],
+        "url": "/2022/03/03/never-get-trapped-in-grub-rescue-again.html",
+        "teaser": null
       }]
