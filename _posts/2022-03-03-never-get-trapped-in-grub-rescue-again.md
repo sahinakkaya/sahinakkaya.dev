@@ -23,11 +23,11 @@ Yes, it just screams ***"Do not do it!"*** but come on. I will not try to shrink
 
 As always, I booted into a live environment and run `boot-repair` command. It was always working but this time... Even after finishing the operation successfully I could not boot into neither Arch nor Ubuntu (the two systems I had previously). 
 
-Arch was originally mounted in `sdb3` and Ubuntu was `sda2`. Considering the fact that I only messed with `sdb`, I should be able to boot Ubuntu, right? Well, yeah. Technically I did boot into Ubuntu but I didn't see login screen. It was dropping me into something called "Emergency mode" which just makes me panic! `sudo update-grub`... Nope. Same thing. Arch does not boot and Ubuntu partially boots. 
+Arch was originally mounted in `sdb3` and Ubuntu was in `sda2`. Considering the fact that I only messed with `sdb`, I should be able to boot Ubuntu, right? Well, yeah. Technically I did boot into Ubuntu but I didn't see the login screen. It was dropping me into something called *"Emergency mode"* which just makes me panic! `sudo update-grub`... Nope. Nothing changes. Arch does not boot and Ubuntu partially boots. 
 
 Let me tell you what the problem was and how my ignorance made it worse:
 
-- While installing the new system, I saw a partition **labelled** "Microsoft Basic Data". I deleted it thinking it is not required because I don't use W\*ndows. It turns out, it was my *boot* partition for Arch, just labelled incorrectly... Big lolz :D But we will see this is not even important because I had to rewrite my boot partition anyway.
+- While installing the new system, I saw a partition **labelled** *"Microsoft Basic Data"*. I deleted it thinking it is not required because I don't use W\*ndows. It turns out, it was my *boot* partition for Arch, just labelled incorrectly... Big lolz :D But we will see this is not even important because I had to rewrite my boot partition anyway.
 
 - My Arch was installed in `sdb3`. When I created a new partition and installed the new system, `sdb3` was shifted to `sdb5` even though I did not ask for it. But the grub configuration to boot my system was still pointing to `sdb3`. That was the reason why Arch does not boot. It was trying to boot from `sdb3`. So I had to recreate grub configuration and reinstall grub to fix it. I run the following commands that I found [here](https://www.jeremymorgan.com/tutorials/linux/how-to-reinstall-boot-loader-arch-linux/) in a live Arch environment:
   ```bash
@@ -55,7 +55,7 @@ Let me tell you what the problem was and how my ignorance made it worse:
 
   These are the pictures I took for reference while trying to figure out which boot options are useless. Sorry for the bad quality. I didn't think I would use them in a blog post. 
 
-  - While trying to fix the previous problems, I've spent enough time in the `/boot/efi` directory that make me understand where these grub entries are coming from. There were a lot of files belong to old systems. I simply deleted them and updated grub. All of the bad entries were gone. I want to draw your attention here: *I did not search for how to delete the unused grub entries. I just knew deleting their directories from `/boot/efi` will do. I am doing this sh\*t! (Another hackerman moment :D )*
+  - While trying to fix the previous problems, I've spent enough time in the `/boot/efi` directory that make me understand where these grub entries are coming from. There were a lot of files belong to old systems. I simply deleted them and updated grub. All of the bad entries were gone. I want to draw your attention here: *I did not search for how to delete the unused grub entries. I just knew deleting their directories from `/boot/efi` will do the job. I am doing this sh\*t! (Another hackerman moment :D )*
   - In order to delete useless boot options from UEFI menu, I used `efibootmgr`. I searched for it on the internet, of course!
   ```bash
   efibootmgr -v # Check which entries you want to delete, say it is 0003.
