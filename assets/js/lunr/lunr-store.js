@@ -42,7 +42,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Confession Time",
-        "excerpt":"Last week, I received an email from LetsEncrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason....","categories": [],
+        "excerpt":"Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the...","categories": [],
         "tags": ["ssl"],
         "url": "/2022/04/08/confession-time.html",
         "teaser": null
