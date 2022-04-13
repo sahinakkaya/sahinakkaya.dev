@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Confession Time - Şahin Akkaya’s Personal Page</title>
-<meta name="description" content="Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
+<meta name="description" content="A failure story Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
 
 
   <meta name="author" content="Şahin Akkaya">
@@ -26,7 +26,7 @@
 <meta property="og:url" content="https://sahinakkaya.dev/2022/04/08/confession-time.html">
 
 
-  <meta property="og:description" content="Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
+  <meta property="og:description" content="A failure story Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
 
 
 
@@ -37,6 +37,8 @@
   <meta property="article:published_time" content="2022-04-08T15:46:00+00:00">
 
 
+
+  <meta property="article:modified_time" content="2022-04-13T00:00:00+00:00">
 
 
 
@@ -272,9 +274,9 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Confession Time">
-    <meta itemprop="description" content="Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
+    <meta itemprop="description" content="A failure storyLast week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
     <meta itemprop="datePublished" content="2022-04-08T15:46:00+00:00">
-    
+    <meta itemprop="dateModified" content="2022-04-13T00:00:00+00:00">
 
     <div class="page__inner-wrap">
       
@@ -314,7 +316,8 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>Last week, I received an email from <a href="https://letsencrypt.org/">Let’s Encrypt</a> reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.</p>
+        <h2 id="a-failure-story">A failure story</h2>
+<p>Last week, I received an email from <a href="https://letsencrypt.org/">Let’s Encrypt</a> reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.</p>
 
 <p>Anyway, I thought it will be easy to fix. Just run <code class="language-plaintext highlighter-rouge">certbot</code> again and let him do the job, right? NOPE. It is not that easy. It is just giving me errors with some success messages. If I was not so clueless about what the heck I am doing, I could fix the error. But I don’t know anything about how SSL works and it is a shame.</p>
 
@@ -322,7 +325,8 @@
 
 <p>If you know the original quote, email me… No, do not email because it does not work. F%ck this thing. F*%k everything. I deserved this. Do not help. If I can’t fix this by myself, I should not call myself computer engineer. I am out.</p>
 
-<p><strong>Update:</strong> The problem is fixed. One of my colleagues told me to reboot the server so that it will (possibly) trigger a script to get a new certificate. I did not think it would work because I already try to get a new certificate manually running <code class="language-plaintext highlighter-rouge">certbot renew</code>. And yeah, it didn’t change anything but gave me courage to try other <em>dead simple</em> solutions.</p>
+<h3 id="update"><strong>Update</strong></h3>
+<p>The problem is fixed. One of my colleagues told me to reboot the server so that it will (<em>possibly</em>) trigger a script to get a new certificate. I did not think it would work because I already try to get a new certificate manually running <code class="language-plaintext highlighter-rouge">certbot renew</code>. And yeah, it didn’t change anything but gave me courage to try other <em>dead simple</em> solutions.</p>
 
 <ul>
   <li>
@@ -333,7 +337,7 @@
   </li>
 </ul>
 
-<p>Any way, I am happy that it is finally fixed. Did I learn something from this? Not much, but yeah. Sometimes all you need is a simple restart :D</p>
+<p>Any way, I am happy that it is finally fixed. Did I learn something from this? Not much. But yeah, sometimes all you need is a simple restart :D</p>
 
 
         
@@ -346,7 +350,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-04-08T15:46:00+00:00">April 8, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-04-13">April 13, 2022</time></p>
 
 
       </footer>
