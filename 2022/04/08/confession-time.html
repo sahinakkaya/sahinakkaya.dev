@@ -302,7 +302,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 minute read
+          2 minute read
         
       </span>
     
@@ -321,6 +321,20 @@
 <p>I don’t even know the subject enough to Google it. I feel like I am the only guy in the planet whose certificate is expired. Seriously, how tf I can’t find a solution to a such common problem? There was a saying like, <em>“If you can’t find something on the internet, there is a high chance that you are being stupid”</em>. It was not exactly like this but I can’t find the original quote either. Argghh…</p>
 
 <p>If you know the original quote, email me… No, do not email because it does not work. F%ck this thing. F*%k everything. I deserved this. Do not help. If I can’t fix this by myself, I should not call myself computer engineer. I am out.</p>
+
+<p><strong>Update:</strong> The problem is fixed. One of my colleagues told me to reboot the server so that it will (possibly) trigger a script to get a new certificate. I did not think it would work because I already try to get a new certificate manually running <code class="language-plaintext highlighter-rouge">certbot renew</code>. And yeah, it didn’t change anything but gave me courage to try other <em>dead simple</em> solutions.</p>
+
+<ul>
+  <li>
+    <p>One of them was adding missing MX records for my domain. <code class="language-plaintext highlighter-rouge">certbot</code> was telling me that it can’t find any <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">AAAA</code> records for <code class="language-plaintext highlighter-rouge">www.mail</code>. I didn’t think this is related with my problem because how would I receive emails before then? Anyway, I added the records and the errors are gone. It was only giving me success messages now. Everything seemed to be fine. But I still could not connect to my mail account.</p>
+  </li>
+  <li>
+    <p>And here is the solution: <code class="language-plaintext highlighter-rouge">sudo systemctl restart dovecot</code>. Kill me. I am <em>guessing</em> I had to restart the mail service because certificate has changed and it had to pick up the new one. I bet if I had run this command right after <code class="language-plaintext highlighter-rouge">certbot renew</code> I would not face any issues. The error messages caused by missing mx records were not related with this problem but I was confused by them and I thought something wrong with my certificates.</p>
+  </li>
+</ul>
+
+<p>Any way, I am happy that it is finally fixed. Did I learn something from this? Not much, but yeah. Sometimes all you need is a simple restart :D</p>
+
 
         
       </section>
