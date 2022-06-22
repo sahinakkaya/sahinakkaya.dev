@@ -46,4 +46,10 @@ var store = [{
         "tags": ["ssl"],
         "url": "/2022/04/08/confession-time.html",
         "teaser": null
+      },{
+        "title": "Rant: Stop whatever you are doing and learn how licenses work",
+        "excerpt":"Recently, Github announced that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting list. When I saw the news, I thought I can give it a try. But not so surprisingly it was not free. You have 3...","categories": [],
+        "tags": ["copilot","license","github"],
+        "url": "/2022/06/22/rant-on-peoples-reaction-to-copilot.html",
+        "teaser": null
       }]

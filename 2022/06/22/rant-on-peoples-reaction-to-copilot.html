@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Confession Time - Şahin Akkaya’s Personal Page</title>
-<meta name="description" content="A failure story Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
+<!-- begin _includes/seo.html --><title>Rant: Stop whatever you are doing and learn how licenses work - Şahin Akkaya’s Personal Page</title>
+<meta name="description" content="Recently, Github announced  that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting list. When I saw the news, I thought I can give it a try. But not so surprisingly it was not free. You have 3 ways to get it:    Pay the subscription fee and get it.   Prove you are a student and get it for free.   Be a maintainer of a popular repository and get it for free.">
 
 
   <meta name="author" content="Şahin Akkaya">
@@ -22,28 +22,26 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Şahin Akkaya's Personal Page">
-<meta property="og:title" content="Confession Time">
-<meta property="og:url" content="https://sahinakkaya.dev/2022/04/08/confession-time.html">
+<meta property="og:title" content="Rant: Stop whatever you are doing and learn how licenses work">
+<meta property="og:url" content="https://sahinakkaya.dev/2022/06/22/rant-on-peoples-reaction-to-copilot.html">
 
 
-  <meta property="og:description" content="A failure story Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
-
-
-
+  <meta property="og:description" content="Recently, Github announced  that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting list. When I saw the news, I thought I can give it a try. But not so surprisingly it was not free. You have 3 ways to get it:    Pay the subscription fee and get it.   Prove you are a student and get it for free.   Be a maintainer of a popular repository and get it for free.">
 
 
 
 
-  <meta property="article:published_time" content="2022-04-08T15:46:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2022-04-13T00:00:00+00:00">
+  <meta property="article:published_time" content="2022-06-22T07:46:00+00:00">
 
 
 
 
-<link rel="canonical" href="https://sahinakkaya.dev/2022/04/08/confession-time.html">
+
+
+<link rel="canonical" href="https://sahinakkaya.dev/2022/06/22/rant-on-peoples-reaction-to-copilot.html">
 
 
 
@@ -273,15 +271,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Confession Time">
-    <meta itemprop="description" content="A failure storyLast week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.">
-    <meta itemprop="datePublished" content="2022-04-08T15:46:00+00:00">
-    <meta itemprop="dateModified" content="2022-04-13T00:00:00+00:00">
+    <meta itemprop="headline" content="Rant: Stop whatever you are doing and learn how licenses work">
+    <meta itemprop="description" content="Recently, Github announced that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting list.When I saw the news, I thought I can give it a try. But not so surprisingly it was not free. You have 3 ways to get it:  Pay the subscription fee and get it.  Prove you are a student and get it for free.  Be a maintainer of a popular repository and get it for free.">
+    <meta itemprop="datePublished" content="2022-06-22T07:46:00+00:00">
+    
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Confession Time
+          <h1 id="page-title" class="page__title" itemprop="headline">Rant: Stop whatever you are doing and learn how licenses work
 </h1>
           
 
@@ -291,7 +289,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-04-08T15:46:00+00:00">April 8, 2022</time>
+        <time datetime="2022-06-22T07:46:00+00:00">June 22, 2022</time>
       </span>
     
 
@@ -316,29 +314,37 @@
 
       <section class="page__content" itemprop="text">
         
-        <h2 id="a-failure-story">A failure story</h2>
-<p>Last week, I received an email from <a href="https://letsencrypt.org/">Let’s Encrypt</a> reminding me to renew my certificates. I forgot to renew it and the certificate expired. Now I can’t send or receive any emails. If you send me email in the last week and wonder why I didn’t respond, this is the reason.</p>
-
-<p>Anyway, I thought it will be easy to fix. Just run <code class="language-plaintext highlighter-rouge">certbot</code> again and let him do the job, right? NOPE. It is not that easy. It is just giving me errors with some success messages. If I was not so clueless about what the heck I am doing, I could fix the error. But I don’t know anything about how SSL works and it is a shame.</p>
-
-<p>I don’t even know the subject enough to Google it. I feel like I am the only guy in the planet whose certificate is expired. Seriously, how tf I can’t find a solution to a such common problem? There was a saying like, <em>“If you can’t find something on the internet, there is a high chance that you are being stupid”</em>. It was not exactly like this but I can’t find the original quote either. Argghh…</p>
-
-<p>If you know the original quote, email me… No, do not email because it does not work. F%ck this thing. F*%k everything. I deserved this. Do not help. If I can’t fix this by myself, I should not call myself computer engineer. I am out.</p>
-
-<h3 id="update"><strong>Update</strong></h3>
-<p>The problem is fixed. One of my colleagues told me to reboot the server so that it will (<em>possibly</em>) trigger a script to get a new certificate. I did not think it would work because I already try to get a new certificate manually running <code class="language-plaintext highlighter-rouge">certbot renew</code>. And yeah, it didn’t change anything but gave me courage to try other <em>dead simple</em> solutions.</p>
-
+        <p>Recently, Github <a href="https://github.blog/changelog/2022-06-21-github-copilot-is-now-available-to-individual-developers/">announced</a> 
+that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting list.
+When I saw the news, I thought I can give it a try. But not so surprisingly it was not free. You have 3 ways to get it:</p>
 <ul>
-  <li>
-    <p>One of them was adding missing MX records for my domain. <code class="language-plaintext highlighter-rouge">certbot</code> was telling me that it can’t find any <code class="language-plaintext highlighter-rouge">A</code> or <code class="language-plaintext highlighter-rouge">AAAA</code> records for <code class="language-plaintext highlighter-rouge">www.mail</code>. I didn’t think this is related with my problem because how would I receive emails before then? Anyway, I added the records and the errors are gone. It was only giving me success messages now. Everything seemed to be fine. But I still could not connect to my mail account.</p>
-  </li>
-  <li>
-    <p>And here is the solution: <code class="language-plaintext highlighter-rouge">sudo systemctl restart dovecot</code>. Kill me. I am <em>guessing</em> I had to restart the mail service because certificate has changed and it had to pick up the new one. I bet if I had run this command right after <code class="language-plaintext highlighter-rouge">certbot renew</code> I would not face any issues. The error messages caused by missing mx records were not related with this problem but I was confused by them and I thought something wrong with my certificates.</p>
-  </li>
+  <li>Pay the subscription fee and get it.</li>
+  <li>Prove you are a student and get it for free.</li>
+  <li>Be a maintainer of <em>a popular repository</em> and get it for free.</li>
 </ul>
 
-<p>Any way, I am happy that it is finally fixed. Did I learn something from this? Not much. But yeah, sometimes all you need is a simple restart :D</p>
+<p>I think I should be able to use it for free because I am a student but apparently they are not convinced yet. Anyways, that is a different
+story. I don’t care if they will give me access to Github Copilot or not. It is not a big deal for me.</p>
 
+<p>But some people were really angry about how Github Team being vague while defining the criteria as “being a maintainer of a popular open source project”.
+I think they are right to some extent. If all you need is having a few thousands stars for a project, you could easily get that. I know a lot of troll 
+or low effort repositories that get a lot of stars because they are funny.</p>
+
+<p>Later, I found <a href="https://twitter.com/fatih/status/1539574219629105156">another tweet</a> that explains how Github decides what is <em>popular</em>. According to 
+this tweet, if you have a repository that is in top 1000 in one of the most popular 34 languages, you are eligible to get Github Copilot for free. 
+This is better than the previous definition but you can still argue that it is not fair because one can create a package for checking if a number is
+even or not and get thousands of stars.</p>
+
+<p>You can criticize this, I get that. But do not come up with silly arguments to justify yourself. Like how on earth would you think that Github is doing 
+something bad because $10/month is too much for this service? It is business man, you pay if you think it is worth it. That’s it. <em>“I joined beta program
+and it was free, now they want to charge me if I want to continue using it. They did not tell me that.”</em> Uhhm… What? Are you aware that what you are using
+is another company’s service and they have all rights to do whatever they want with their service? How you guys even can think of like that?! This is crazy!</p>
+
+<p>Some people argue that what Github is doing is wrong because they used open source projects <strong>without consent</strong>. Another similar argument is that what 
+Github is doing is evil because they used projects developed by community and now they are selling it without giving any money to the contributors of 
+these projects. Do you guys even have an idea what licenses stands for? If you don’t want to some random person use your code, just license it that 
+way. And if you licensed it with a GPL compatible or similar license you already gave rights anyone to use or sell your code. That is not Github’s 
+problem. That is your problem not understanding how licenses work. Stop complaining.</p>
 
         
       </section>
@@ -350,7 +356,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-04-13">April 13, 2022</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-06-22T07:46:00+00:00">June 22, 2022</time></p>
 
 
       </footer>
@@ -358,23 +364,22 @@
       <section class="page__share">
   
 
-  <a href="https://twitter.com/intent/tweet?text=Confession+Time%20https%3A%2F%2Fsahinakkaya.dev%2F2022%2F04%2F08%2Fconfession-time.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Rant%3A+Stop+whatever+you+are+doing+and+learn+how+licenses+work%20https%3A%2F%2Fsahinakkaya.dev%2F2022%2F06%2F22%2Frant-on-peoples-reaction-to-copilot.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F04%2F08%2Fconfession-time.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F06%2F22%2Frant-on-peoples-reaction-to-copilot.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F04%2F08%2Fconfession-time.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F06%2F22%2Frant-on-peoples-reaction-to-copilot.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/2022/03/03/never-get-trapped-in-grub-rescue-again.html" class="pagination--pager" title="Never Get Trapped in Grub Rescue Again!
+      <a href="/2022/04/08/confession-time.html" class="pagination--pager" title="Confession Time
 ">Previous</a>
     
     
-      <a href="/2022/06/22/rant-on-peoples-reaction-to-copilot.html" class="pagination--pager" title="Rant: Stop whatever you are doing and learn how licenses work
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -398,7 +403,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/2022/06/22/rant-on-peoples-reaction-to-copilot.html" rel="permalink">Rant: Stop whatever you are doing and learn how licenses work
+        <a href="/2022/04/08/confession-time.html" rel="permalink">Confession Time
 </a>
       
     </h2>
@@ -410,7 +415,7 @@
       <span class="page__meta-date">
         <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2022-06-22T07:46:00+00:00">June 22, 2022</time>
+        <time datetime="2022-04-08T15:46:00+00:00">April 8, 2022</time>
       </span>
     
 
@@ -430,8 +435,8 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Recently, Github announced 
-that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting l...</p>
+    <p class="archive__item-excerpt" itemprop="description">A failure story
+Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. No...</p>
   </article>
 </div>
 
