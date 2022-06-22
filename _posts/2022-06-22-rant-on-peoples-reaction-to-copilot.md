@@ -25,10 +25,10 @@ even or not and get thousands of stars.
 You can criticize this, I get that. But do not come up with silly arguments to justify yourself. Like how on earth would you think that Github is doing 
 something bad because $10/month is too much for this service? It is business man, you pay if you think it is worth it. That's it. *"I joined beta program
 and it was free, now they want to charge me if I want to continue using it. They did not tell me that."* Uhhm... What? Are you aware that what you are using
-is another company's service and they have all rights to do whatever they want with their service? How you guys even can think of like that?! This is crazy!
+is another company's service and they have all rights to do whatever they want with their service? How you guys even can build up arguments like that?! This is crazy!
 
-Some people argue that what Github is doing is wrong because they used open source projects **without consent**. Another similar argument is that what 
+Some people argue that *"what Github is doing is wrong because they used open source projects **without consent**."* Another similar argument is that *"what 
 Github is doing is evil because they used projects developed by community and now they are selling it without giving any money to the contributors of 
-these projects. Do you guys even have an idea what licenses stands for? If you don't want to some random person use your code, just license it that 
+these projects."* Do you guys even have an idea what licenses stands for? If you don't want to some random person use your code, just license it that 
 way. And if you licensed it with a GPL compatible or similar license you already gave rights anyone to use or sell your code. That is not Github's 
 problem. That is your problem not understanding how licenses work. Stop complaining.
