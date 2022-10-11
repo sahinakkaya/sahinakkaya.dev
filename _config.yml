@@ -27,7 +27,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://sahinakkaya.dev" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: sahinakkayadev
-github_username:  Asocia
+github_username:  sahinakkayadev
 search: true
 
 defaults:
@@ -58,9 +58,9 @@ author:
   location : "Istanbul, Turkey"
 
   links:
-    - label: "Asocia"
+    - label: "sahinakkayadev"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/Asocia"
+      url: "https://github.com/sahinakkayadev"
     - label: "Asocia"
       icon: "fab fa-fw fa-stack-overflow"
       url: "https://stackoverflow.com/users/9608759"
