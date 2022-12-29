@@ -52,4 +52,10 @@ var store = [{
         "tags": ["copilot","license","github"],
         "url": "/2022/06/22/rant-on-peoples-reaction-to-copilot.html",
         "teaser": null
+      },{
+        "title": "Recap Of 2022",
+        "excerpt":"title: “Recap of 2022” date: 2022-12-29 23:22:08 +0300 — It’s been a while… It has been so long that I forgot how I was writing my blogs back then. My life didn’t change that much. Actually, it is getting worse. The biggest problem of my life is the graduation project....","categories": [],
+        "tags": [],
+        "url": "/2022/12/29/recap-of-2022.html",
+        "teaser": null
       }]
