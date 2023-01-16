@@ -59,7 +59,7 @@ That's it! We have created our first Action. When we push this change, GitHub wi
     restore-keys: |
       ${{ runner.os }}-gems-{% endraw %}
 ```
-We are done with the Actions part. You can see the final code [here](https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml). When you are also done with the code, just push it to trigger the action.
+We are done with the Actions part. You can see the final code [here](https://github.com/sahinakkaya/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml). When you are also done with the code, just push it to trigger the action.
 
 ### Setting up the Webhook and related endpoint
 Now that we set up our Action to build the site, we need to let our server know about the changes so that it can pull the changes. 

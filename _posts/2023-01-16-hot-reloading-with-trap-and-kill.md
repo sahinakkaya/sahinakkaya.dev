@@ -5,7 +5,6 @@ tags:  trap kill linux
 ---
 
 ## `trap` them and `kill` them!
-
 There is a beautiful command in Linux called [`trap`](https://man7.org/linux/man-pages/man1/trap.1p.html) which *trap*s signals and let you run specific commands when they invoked. There is also good ol' [`kill`](https://man7.org/linux/man-pages/man1/kill.1.html) command which not only kills processes but allows you to specify a signal to send. By combining these two, you can run specific functions from your scripts any time!
 
 
