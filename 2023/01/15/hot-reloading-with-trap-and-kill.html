@@ -467,12 +467,14 @@ restart_scripts<span class="o">(){</span>
     <span class="c"># for each script in the list</span>
     <span class="k">for </span>script <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">scripts_to_be_executed</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
     <span class="k">do</span>
-        <span class="c"># run the script and store its pid.</span>
-        <span class="c"># '&amp;' at the end of command is important otherwise</span>
-        <span class="c"># the script will block until its execution is finished.</span>
-        <span class="nv">$script</span> &amp;
-        <span class="nv">pid</span><span class="o">=</span><span class="nv">$!</span>
-        pids+<span class="o">=(</span><span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span><span class="o">)</span>
+        <span class="c"># Run the script and store its pid.</span>
+        <span class="c"># note the '&amp;' at the end of command. Without it the script will</span>
+        <span class="c"># block until its execution is finished. Also we are putting it</span>
+        <span class="c"># into braces because we want to create a process group so that</span>
+        <span class="c"># killing this pid will end all the grandchilds.</span>
+        <span class="c"># (useful if you have pipes (|) or other &amp;'s in your script!)</span>
+        <span class="o">(</span><span class="nv">$script</span><span class="o">)</span> &amp;
+        pids+<span class="o">=(</span><span class="s2">"</span><span class="nv">$!</span><span class="s2">"</span><span class="o">)</span>
     <span class="k">done</span>
 <span class="o">}</span>
 
