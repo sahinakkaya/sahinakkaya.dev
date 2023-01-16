@@ -58,4 +58,10 @@ var store = [{
         "tags": [],
         "url": "/2022/12/29/recap-of-2022.html",
         "teaser": null
+      },{
+        "title": "Hot-Reload Long Running Shell Scripts (feat. trap / kill)",
+        "excerpt":"trap them and kill them! There is a beautiful command in Linux called trap which traps signals and let you run specific commands when they invoked. There is also good ol’ kill command which not only kills processes but allows you to specify a signal to send. By combining these...","categories": [],
+        "tags": ["trap","kill","linux"],
+        "url": "/2023/01/15/hot-reloading-with-trap-and-kill.html",
+        "teaser": null
       }]

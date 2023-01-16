@@ -1,0 +1,840 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Hot-Reload Long Running Shell Scripts (feat. trap / kill) - Şahin Akkaya’s Personal Page</title>
+<meta name="description" content="trap them and kill them!">
+
+
+  <meta name="author" content="Şahin Akkaya">
+  
+  <meta property="article:author" content="Şahin Akkaya">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Şahin Akkaya's Personal Page">
+<meta property="og:title" content="Hot-Reload Long Running Shell Scripts (feat. trap / kill)">
+<meta property="og:url" content="https://sahinakkaya.dev/2023/01/15/hot-reloading-with-trap-and-kill.html">
+
+
+  <meta property="og:description" content="trap them and kill them!">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-01-15T21:48:08+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://sahinakkaya.dev/2023/01/15/hot-reloading-with-trap-and-kill.html">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": null,
+      "url": "https://sahinakkaya.dev/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Şahin Akkaya's Personal Page Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          /home/sahin/
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li><li class="masthead__menu-item">
+              <a href="/contact/">Contact</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/logo.jpg" alt="Şahin Akkaya" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Şahin Akkaya</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>A perfectionist who likes to tinker everything until it is just right.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Istanbul, Turkey</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://github.com/sahinakkayadev" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">sahinakkayadev</span></a></li>
+          
+        
+          
+            <li><a href="https://stackoverflow.com/users/9608759" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-stack-overflow" aria-hidden="true"></i><span class="label">Asocia</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/sahinakkayadev" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">@sahinakkayadev</span></a></li>
+          
+        
+          
+            <li><a href="mailto:sahin@sahinakkaya.dev" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span class="label">sahin@sahinakkaya.dev</span></a></li>
+          
+        
+          
+            <li><a href="/assets/docs/resume.pdf" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-id-card" aria-hidden="true"></i><span class="label">Resume</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Hot-Reload Long Running Shell Scripts (feat. trap / kill)">
+    <meta itemprop="description" content="trap them and kill them!">
+    <meta itemprop="datePublished" content="2023-01-15T21:48:08+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Hot-Reload Long Running Shell Scripts (feat. trap / kill)
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-01-15T21:48:08+00:00">January 15, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="trap-them-and-kill-them"><code class="language-plaintext highlighter-rouge">trap</code> them and <code class="language-plaintext highlighter-rouge">kill</code> them!</h2>
+
+<p>There is a beautiful command in Linux called <a href="https://man7.org/linux/man-pages/man1/trap.1p.html"><code class="language-plaintext highlighter-rouge">trap</code></a> which <em>trap</em>s signals and let you run specific commands when they invoked. There is also good ol’ <a href="https://man7.org/linux/man-pages/man1/kill.1.html"><code class="language-plaintext highlighter-rouge">kill</code></a> command which not only kills processes but allows you to specify a signal to send. By combining these two, you can run specific functions from your scripts any time!</p>
+
+<h3 id="basic-example">Basic Example</h3>
+<p>Let’s start by creating something very simple and build up from there. Create a script with the following contents:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="s2">"My pid is </span><span class="nv">$$</span><span class="s2">. Send me SIGUSR1!"</span>
+
+func<span class="o">()</span> <span class="o">{</span>
+  <span class="nb">echo</span> <span class="s2">"Got SIGUSR1"</span>
+<span class="o">}</span>
+
+<span class="c"># here we are telling that run 'func' when USR1 signal is </span>
+<span class="c"># received # you can run anything. Combine commands with ; etc.</span>
+<span class="nb">trap</span> <span class="s2">"func"</span> USR1
+
+<span class="c"># The while loop is important here otherwise our script will exit</span>
+<span class="c"># before we manage to get a chance to send a signal.</span>
+<span class="nv">i</span><span class="o">=</span>1
+<span class="k">while </span><span class="nb">true</span> <span class="p">;</span> <span class="k">do
+    </span><span class="nb">echo</span> <span class="s2">"waiting SIGUSR1"</span>
+    <span class="nb">sleep </span>1
+<span class="k">done</span>
+</code></pre></div></div>
+<p>Now make it executable and run it:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ <span class="nb">chmod</span> +x trap_example
+❯ ./trap_example
+My pid is 2811137. Send me SIGUSR1!
+waiting SIGUSR1
+waiting SIGUSR1
+waiting SIGUSR1
+waiting SIGUSR1
+waiting SIGUSR1
+</code></pre></div></div>
+
+<p>Open another terminal and send your signal with <code class="language-plaintext highlighter-rouge">kill</code> to the specified pid.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ <span class="nb">kill</span> <span class="nt">-s</span> USR1 2811137
+</code></pre></div></div>
+
+<p>You should receive <code class="language-plaintext highlighter-rouge">"Got SIGUSR!"</code> from the other process. That’s it! Now, imagine you write whatever thing you want to execute in <code class="language-plaintext highlighter-rouge">func</code> and then you can simply <code class="language-plaintext highlighter-rouge">kill -s ...</code> anytime and as many times you want!</p>
+
+<p>Let’s move the while loop into the <code class="language-plaintext highlighter-rouge">func</code> and add some variables so you can see how powerful this is.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nb">echo</span> <span class="s2">"My pid is </span><span class="nv">$$</span><span class="s2">. Send me SIGUSR1!"</span>
+
+func<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">i</span><span class="o">=</span>1
+    <span class="k">while  </span><span class="nb">true</span> <span class="p">;</span> <span class="k">do
+        </span><span class="nb">echo</span> <span class="s2">"i: </span><span class="nv">$i</span><span class="s2">"</span>
+        <span class="nv">i</span><span class="o">=</span><span class="k">$((</span> i <span class="o">+</span> <span class="m">1</span> <span class="k">))</span>
+        <span class="nb">sleep </span>1
+    <span class="k">done</span>
+<span class="o">}</span>
+
+<span class="nb">trap</span> <span class="s2">"echo 'Got SIGUSR1!'; func"</span> USR1
+
+<span class="c"># we need to call the function once, otherwise script</span>
+<span class="c"># will exit before we manage to send a signal</span>
+func
+
+</code></pre></div></div>
+
+<p>Now run the script and send <code class="language-plaintext highlighter-rouge">SIGUSR1</code>. Here is the result:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ ./trap_example
+My pid is 2880704. Send me SIGUSR1!
+i: 1
+i: 2
+i: 3
+i: 4
+i: 5
+i: 6
+i: 7
+Got SIGUSR1!
+i: 1
+i: 2
+i: 3
+i: 4
+i: 5
+Got SIGUSR1!
+i: 1
+i: 2
+^C
+</code></pre></div></div>
+
+<p>Isn’t this neat?</p>
+
+<h3 id="more-useful-example">More useful example</h3>
+
+<p>Let’s imagine you have multiple long running (infinite loops basically) scripts and you want to restart them without manually searching for their pid’s and killing them. <code class="language-plaintext highlighter-rouge">trap</code> is for the rescue, again! <sup><a href="##" title="Yeah, I know you can run a systemd service if you want but I think it is an overkill for this situation. Plus, I don't like dealing with them.">*</a></sup> This command is awesome.</p>
+
+<p>Without further ado, let’s get started. Create a script called <code class="language-plaintext highlighter-rouge">script1</code> with the following contents:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># file: script1</span>
+
+<span class="nv">i</span><span class="o">=</span>1
+<span class="k">while  </span><span class="nb">true</span> <span class="p">;</span> <span class="k">do
+    </span><span class="nb">echo</span> <span class="s2">"Hello from </span><span class="nv">$0</span><span class="s2">. i is </span><span class="nv">$i</span><span class="s2">"</span>
+    <span class="nv">i</span><span class="o">=</span><span class="k">$((</span> i <span class="o">+</span> <span class="m">1</span> <span class="k">))</span>
+    <span class="nb">sleep </span>1
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>And symlink it to another name just for fun:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ <span class="nb">chmod</span> +x script1
+❯ <span class="nb">ln</span> <span class="nt">-s</span> script1 script2
+</code></pre></div></div>
+
+<p>Now we can pretend they are two different scripts as their outputs differ:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ ./script1
+Hello from ./script1. i is 1
+Hello from ./script1. i is 2
+Hello from ./script1. i is 3
+Hello from ./script1. i is 4
+^C
+❯ ./script2
+Hello from ./script2. i is 1
+Hello from ./script2. i is 2
+Hello from ./script2. i is 3
+^C
+</code></pre></div></div>
+
+<p>Finally, create the main script which will start child scripts and restart them on our signals:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="nb">echo</span> <span class="s2">"My pid is </span><span class="nv">$$</span><span class="s2">. You know what to do  ( ͡° ͜ʖ ͡°)"</span>
+<span class="nb">echo</span> <span class="s2">"You can also send me signal with 'killall </span><span class="sb">`</span><span class="nb">basename</span> <span class="nv">$0</span><span class="sb">`</span><span class="s2"> ...'"</span>
+
+<span class="nv">pids</span><span class="o">=()</span> <span class="c"># we will store the pid's of child scripts here</span>
+<span class="nv">scripts_to_be_executed</span><span class="o">=(</span><span class="s2">"./script1"</span> <span class="s2">"./script2"</span><span class="o">)</span>
+
+kill_childs<span class="o">(){</span> <span class="c"># wow, this sounded wild</span>
+    <span class="k">for </span>pid <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">pids</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">do
+      </span><span class="nb">echo </span>killing <span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span>
+      <span class="nb">kill</span> <span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span>
+    <span class="k">done
+    </span><span class="nv">pids</span><span class="o">=()</span>
+<span class="o">}</span>
+
+<span class="c"># kill childs and restart all the scripts</span>
+restart_scripts<span class="o">(){</span>
+    kill_childs
+    <span class="c"># for each script in the list</span>
+    <span class="k">for </span>script <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">scripts_to_be_executed</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
+    <span class="k">do</span>
+        <span class="c"># run the script and store its pid.</span>
+        <span class="c"># '&amp;' at the end of command is important otherwise</span>
+        <span class="c"># the script will block until its execution is finished.</span>
+        <span class="nv">$script</span> &amp;
+        <span class="nv">pid</span><span class="o">=</span><span class="nv">$!</span>
+        pids+<span class="o">=(</span><span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span><span class="o">)</span>
+    <span class="k">done</span>
+<span class="o">}</span>
+
+<span class="c"># we will restart_scripts with SIGUSR1 signal</span>
+<span class="nb">trap</span> <span class="s1">'echo "restarting scripts"; restart_scripts'</span> USR1
+
+<span class="c"># we will kill all the childs and exit the main script with SIGINT</span>
+<span class="c"># which is same signal as when you press &lt;Control-C&gt; on your terminal</span>
+<span class="nb">trap</span> <span class="s1">'echo exiting; kill_childs; exit'</span> INT
+
+<span class="c"># run the function once</span>
+restart_scripts
+
+<span class="c"># infinite loop, otherwise main script will exit before we send signal.</span>
+<span class="c"># remember, we started child processes with '&amp;' so they won't block this script</span>
+<span class="k">while </span><span class="nb">true</span><span class="p">;</span> <span class="k">do
+  </span><span class="nb">sleep </span>1
+<span class="k">done</span>
+</code></pre></div></div>
+
+<p>Now, you can run your main script and reload your child scripts any time with <code class="language-plaintext highlighter-rouge">killall main_script -USR1</code></p>
+
+<p>Here is an example run:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ ./trap_multiple
+My pid is 3124123. You know what to do  ( ͡° ͜ʖ ͡°)
+You can also send me signal with 'killall trap_multiple ...'
+Hello from ./script1. i is 1
+Hello from ./script2. i is 1
+Hello from ./script2. i is 2
+Hello from ./script1. i is 2
+Hello from ./script2. i is 3
+Hello from ./script1. i is 3
+restarting scripts
+killing 3124125
+killing 3124126
+Hello from ./script1. i is 1
+Hello from ./script2. i is 1
+Hello from ./script2. i is 2
+Hello from ./script1. i is 2
+Hello from ./script2. i is 3
+Hello from ./script1. i is 3
+Hello from ./script2. i is 4
+Hello from ./script1. i is 4
+restarting scripts
+killing 3124304
+killing 3124305
+Hello from ./script1. i is 1
+Hello from ./script2. i is 1
+Hello from ./script1. i is 2
+Hello from ./script2. i is 2
+^Cexiting
+killing 3124875
+killing 3124876
+</code></pre></div></div>
+
+<h3 id="final-words">Final words</h3>
+<p>I think I am started to getting obsessed with <code class="language-plaintext highlighter-rouge">trap</code> command because it has such a good name. FOSS folks are at something when it comes to naming. Here is another good one:</p>
+
+<blockquote>
+  <p>- How can you see the contents of a file?  <br />
++ You <em><code class="language-plaintext highlighter-rouge">cat</code></em> it.  <br />
+- What if you want to see them in reverse order?  <br />
++ You <em><code class="language-plaintext highlighter-rouge">tac</code></em> it.  <br /></p>
+</blockquote>
+
+<p>No, it is not just a joke. Try it… Man I love Gnoo slash Linux.</p>
+
+<p>Anyway, I hope now you know how to <code class="language-plaintext highlighter-rouge">trap</code> and <code class="language-plaintext highlighter-rouge">kill</code>. Next week I will explain how to <code class="language-plaintext highlighter-rouge">unzip; strip; touch; finger; grep; mount; fsck; more; yes; fsck; fsck; umount; clean; sleep</code> <nobr>(° ͜ʖ ͡°)</nobr>. <sup><a href="##" title="jk :D">*</a></sup></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-01-15T21:48:08+00:00">January 15, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Hot-Reload+Long+Running+Shell+Scripts+%28feat.+trap+%2F+kill%29%20https%3A%2F%2Fsahinakkaya.dev%2F2023%2F01%2F15%2Fhot-reloading-with-trap-and-kill.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2023%2F01%2F15%2Fhot-reloading-with-trap-and-kill.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2023%2F01%2F15%2Fhot-reloading-with-trap-and-kill.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/2022/12/29/recap-of-2022.html" class="pagination--pager" title="Recap of 2022
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You May Also Enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/12/29/recap-of-2022.html" rel="permalink">Recap of 2022
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-12-29T20:22:08+00:00">December 29, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">It’s been a while… It has been so long that I forgot how I was writing my blogs back then. My life didn’t change that much. Actually, it is getting worse.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/06/22/rant-on-peoples-reaction-to-copilot.html" rel="permalink">Rant: Stop whatever you are doing and learn how licenses work
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-06-22T07:46:00+00:00">June 22, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Recently, Github announced 
+that they are making Github Copilot available for everyone. Previously, it was in Beta and you could get it through the waiting l...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/04/08/confession-time.html" rel="permalink">Confession Time
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-04-08T15:46:00+00:00">April 8, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">A failure story
+Last week, I received an email from Let’s Encrypt reminding me to renew my certificates. I forgot to renew it and the certificate expired. No...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/2022/03/03/never-get-trapped-in-grub-rescue-again.html" rel="permalink">Never Get Trapped in Grub Rescue Again!
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-03-03T00:46:00+00:00">March 3, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Anytime I install a new system on my machine, I pray God for nothing bad happens. But it usually happens. When I reboot, I find myself in the “Grub rescue” m...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">
+  Check out the <a href="https://github.com/Asocia/sahinakkayadotdev">code</a> of this site.
+</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+
+
+  </body>
+</html>
