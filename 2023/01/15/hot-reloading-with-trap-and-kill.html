@@ -335,7 +335,6 @@ func<span class="o">()</span> <span class="o">{</span>
 
 <span class="c"># The while loop is important here otherwise our script will exit</span>
 <span class="c"># before we manage to get a chance to send a signal.</span>
-<span class="nv">i</span><span class="o">=</span>1
 <span class="k">while </span><span class="nb">true</span> <span class="p">;</span> <span class="k">do
     </span><span class="nb">echo</span> <span class="s2">"waiting SIGUSR1"</span>
     <span class="nb">sleep </span>1
@@ -526,7 +525,7 @@ killing 3124876
 </code></pre></div></div>
 
 <h3 id="final-words">Final words</h3>
-<p>I think I am started to getting obsessed with <code class="language-plaintext highlighter-rouge">trap</code> command because it has such a good name and use case. FOSS folks are really on another level when it comes to naming. Here is another good one:</p>
+<p>I think I am started to getting obsessed with <code class="language-plaintext highlighter-rouge">trap</code> command because it has such a good name and purpose. FOSS folks are really on another level when it comes to naming. Here is another good one:</p>
 
 <blockquote>
   <p>- How can you see the contents of a file?  <br />
