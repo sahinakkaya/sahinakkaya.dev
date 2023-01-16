@@ -456,7 +456,9 @@ kill_childs<span class="o">(){</span> <span class="c"># wow, this sounded wild</
     <span class="k">for </span>pid <span class="k">in</span> <span class="s2">"</span><span class="k">${</span><span class="nv">pids</span><span class="p">[@]</span><span class="k">}</span><span class="s2">"</span>
     <span class="k">do
       </span><span class="nb">echo </span>killing <span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span>
-      <span class="nb">kill</span> <span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span>
+      <span class="c"># -P: kill all the processes whose parent process is 'pid'</span>
+      <span class="c"># see how we are creating processes below</span>
+      pkill <span class="nt">-P</span> <span class="s2">"</span><span class="nv">$pid</span><span class="s2">"</span>
     <span class="k">done
     </span><span class="nv">pids</span><span class="o">=()</span>
 <span class="o">}</span>
@@ -470,8 +472,8 @@ restart_scripts<span class="o">(){</span>
         <span class="c"># Run the script and store its pid.</span>
         <span class="c"># note the '&amp;' at the end of command. Without it the script will</span>
         <span class="c"># block until its execution is finished. Also we are putting it</span>
-        <span class="c"># into braces because we want to create a process group so that</span>
-        <span class="c"># killing this pid will end all the grandchilds.</span>
+        <span class="c"># into braces because we want to create a "process group" so that</span>
+        <span class="c"># we can kill all its children later by specifying parent pid</span>
         <span class="c"># (useful if you have pipes (|) or other &amp;'s in your script!)</span>
         <span class="o">(</span><span class="nv">$script</span><span class="o">)</span> &amp;
         pids+<span class="o">=(</span><span class="s2">"</span><span class="nv">$!</span><span class="s2">"</span><span class="o">)</span>
