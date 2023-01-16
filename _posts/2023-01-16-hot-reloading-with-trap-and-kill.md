@@ -142,7 +142,7 @@ Finally, create the main script which will start child scripts and restart them 
 ```bash
 #!/bin/bash
 echo "My pid is $$. You know what to do  ( ͡° ͜ʖ ͡°)"
-echo "You can also send me signal with 'killall `basename $0` ...'"
+echo "You can also kill me with 'kill -s INT -\`pgrep -f `basename $0`\`'"
 
 pids=() # we will store the pid's of child scripts here
 scripts_to_be_executed=("./script1" "./script2")
@@ -151,7 +151,9 @@ kill_childs(){ # wow, this sounded wild
     for pid in "${pids[@]}"
     do
       echo killing "$pid"
-      kill "$pid"
+      # -P: kill all the processes whose parent process is 'pid'
+      # see how we are creating processes below
+      pkill -P "$pid"
     done
     pids=()
 }
@@ -162,12 +164,14 @@ restart_scripts(){
     # for each script in the list
     for script in "${scripts_to_be_executed[@]}"
     do
-        # run the script and store its pid.
-        # '&' at the end of command is important otherwise
-        # the script will block until its execution is finished.
-        $script &
-        pid=$!
-        pids+=("$pid")
+        # Run the script and store its pid.
+        # note the '&' at the end of command. Without it the script will
+        # block until its execution is finished. Also we are putting it
+        # into braces because we want to create a "process group" so that
+        # we can kill all its children later by specifying parent pid
+        # (useful if you have pipes (|) or other &'s in your script!)
+        ($script) &
+        pids+=("$!")
     done
 }
 
@@ -194,7 +198,7 @@ Here is an example run:
 ```
 ❯ ./trap_multiple
 My pid is 3124123. You know what to do  ( ͡° ͜ʖ ͡°)
-You can also send me signal with 'killall trap_multiple ...'
+You can also kill me with 'kill -s INT -`pgrep -f trap_multiple`'
 Hello from ./script1. i is 1
 Hello from ./script2. i is 1
 Hello from ./script2. i is 2
