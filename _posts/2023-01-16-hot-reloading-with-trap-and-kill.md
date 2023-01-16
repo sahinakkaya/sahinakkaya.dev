@@ -21,13 +21,12 @@ func() {
   echo "Got SIGUSR1"
 }
 
-# here we are telling that run 'func' when USR1 signal is 
-# received # you can run anything. Combine commands with ; etc.
+# here we are telling that run 'func' when USR1 signal is
+# received. You can run anything. Combine commands with ; etc.
 trap "func" USR1
 
 # The while loop is important here otherwise our script will exit
 # before we manage to get a chance to send a signal.
-i=1
 while true ; do
     echo "waiting SIGUSR1"
     sleep 1
@@ -228,7 +227,7 @@ killing 3124876
 
 
 ### Final words
-I think I am started to getting obsessed with `trap` command because it has such a good name. FOSS folks are at something when it comes to naming. Here is another good one:
+I think I am started to getting obsessed with `trap` command because it has such a good name and purpose. FOSS people are really on another level when it comes to naming. Here is another good one:
 
 > \- How can you see the contents of a file?  <br>
 \+ You *`cat`* it.  <br>
@@ -237,4 +236,4 @@ I think I am started to getting obsessed with `trap` command because it has such
 
 No, it is not just a joke. Try it... Man I love Gnoo slash Linux.
 
-Anyway, I hope now you know how to `trap` and `kill`. Next week I will explain how to `unzip; strip; touch; finger; grep; mount; fsck; more; yes; fsck; fsck; umount; clean; sleep` <nobr>(° ͜ʖ ͡°)</nobr>. <sup>[*](## "jk :D")</sup>
+Anyway, I hope now you know how to `trap` and `kill`. Next week I will explain how to `unzip; strip; touch; finger; grep; mount; fsck; more; yes; fsck; fsck; umount; clean; sleep` <nobr>( ͡° ͜ʖ ͡°)</nobr>. <sup>[*](## "jk :D")</sup>
