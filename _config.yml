@@ -29,6 +29,9 @@ url: "https://sahinakkaya.dev" # the base hostname & protocol for your site, e.g
 twitter_username: sahinakkayadev
 github_username:  sahinakkayadev
 search: true
+search_full_content: true
+lunr:
+  search_within_pages: true
 
 defaults:
   # _posts
