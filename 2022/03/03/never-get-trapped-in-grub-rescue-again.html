@@ -1,12 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
   Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
   Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
--->
-<html lang="en" class="no-js">
+--><html lang="en" class="no-js">
   <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Never Get Trapped in Grub Rescue Again! - Şahin Akkaya’s Personal Page</title>
@@ -116,13 +116,17 @@
           /home/sahin/
           
         </a>
-        <ul class="visible-links"><li class="masthead__menu-item">
+        <ul class="visible-links">
+<li class="masthead__menu-item">
               <a href="/">Home</a>
-            </li><li class="masthead__menu-item">
+            </li>
+<li class="masthead__menu-item">
               <a href="/about/">About</a>
-            </li><li class="masthead__menu-item">
+            </li>
+<li class="masthead__menu-item">
               <a href="/contact/">Contact</a>
-            </li></ul>
+            </li>
+</ul>
         
         <button class="search__toggle" type="button">
           <span class="visually-hidden">Toggle search</span>
@@ -185,7 +189,7 @@
       
         
           
-            <li><a href="https://github.com/sahinakkayadev" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">sahinakkayadev</span></a></li>
+            <li><a href="https://github.com/sahinakkaya" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">sahinakkayadev</span></a></li>
           
         
           
@@ -318,7 +322,7 @@
 
 <p>I go into the live environment and run some random commands that I found on the internet and hope for the best.</p>
 
-<p><img src="/assets/images/grub-rescue/random-bullshit.jpg" alt="me trying to fix grub" /></p>
+<p><img src="/assets/images/grub-rescue/random-bullshit.jpg" alt="me trying to fix grub"></p>
 
 <p>What a nice way to shoot myself in the foot! But this time is different. This time, I f*cked up so much that even the random commands on the internet could not help me. I was on my own and I needed to figure out what is wrong with my system. Let me tell you what I did:</p>
 
@@ -329,7 +333,7 @@
 
 <p>Yes, it just screams <strong><em>“Do not do it!”</em></strong> but come on. I will not try to shrink the partition I am using (<code class="language-plaintext highlighter-rouge">sdb3</code>). So it should not be a problem. I ignored the message and shrink it anyway. No problem. Installed and tested the new OS a little bit. Time to reboot and hope for the best. And of course it did not boot. What would I even expecting?</p>
 
-<p><img src="/assets/images/grub-rescue/cj.png" alt="ah sh*t here we go again" /></p>
+<p><img src="/assets/images/grub-rescue/cj.png" alt="ah sh*t here we go again"></p>
 
 <p>As always, I booted into a live environment and run <code class="language-plaintext highlighter-rouge">boot-repair</code> command. It was always working but this time… Even after finishing the operation successfully I could not boot into neither Arch nor Ubuntu (the two systems I had previously).</p>
 
@@ -342,7 +346,8 @@
     <p>While installing the new system, I saw a partition <strong>labelled</strong> <em>“Microsoft Basic Data”</em>. I deleted it thinking it is not required because I don’t use W*ndows. It turns out, it was my <em>boot</em> partition for Arch, just labelled incorrectly… Big lolz :D But we will see this is not even important because I had to rewrite my boot partition anyway.</p>
   </li>
   <li>My Arch was installed in <code class="language-plaintext highlighter-rouge">sdb3</code>. When I created a new partition and installed the new system, <code class="language-plaintext highlighter-rouge">sdb3</code> was shifted to <code class="language-plaintext highlighter-rouge">sdb5</code> even though I did not ask for it. But the grub configuration to boot my system was still pointing to <code class="language-plaintext highlighter-rouge">sdb3</code>. That was the reason why Arch does not boot. It was trying to boot from <code class="language-plaintext highlighter-rouge">sdb3</code>. So I had to recreate grub configuration and reinstall grub to fix it. I run the following commands that I found <a href="https://www.jeremymorgan.com/tutorials/linux/how-to-reinstall-boot-loader-arch-linux/">here</a> in a live Arch environment:
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> /mnt/arch
+    <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> /mnt/arch
 mount <span class="nt">-t</span> auto /dev/sdb5 /mnt/arch
 arch-chroot /mnt/arch
 mount <span class="nt">-t</span> auto /dev/sdb4 /boot/efi
@@ -358,19 +363,21 @@ grub-install <span class="nt">--efi-directory</span><span class="o">=</span>/boo
   <li>
     <p>Ubuntu was not still booting properly. I checked the logs with <code class="language-plaintext highlighter-rouge">journalctl -xb</code> and saw something related with <code class="language-plaintext highlighter-rouge">sdb</code>. Ubuntu was installed in <code class="language-plaintext highlighter-rouge">sda2</code>, why <code class="language-plaintext highlighter-rouge">sdb</code> should be a problem? Then I remembered something. Back in times when I was using Ubuntu, I was using <code class="language-plaintext highlighter-rouge">sdb1</code> as a secondary storage. So I had a configuration where it automatically mounts <code class="language-plaintext highlighter-rouge">sdb1</code> on startup. Since I messed with <code class="language-plaintext highlighter-rouge">sdb1</code> , it was failing to mount it. I opened <code class="language-plaintext highlighter-rouge">/etc/fstab</code>, and deleted the related line. Bingo! It started booting properly.</p>
 
-    <p><img src="/assets/images/grub-rescue/hackerman.jpg" alt="i am something of a hackerman myself" /></p>
+    <p><img src="/assets/images/grub-rescue/hackerman.jpg" alt="i am something of a hackerman myself"></p>
   </li>
   <li>
     <p>I started feeling like Hackerman, and I said to myself <em>“You know what, Imma fix everything.”</em> I had a very sh*tty grub menu with useless grub entries from old systems that I don’t use anymore. The UEFI also had the same problem. It had ridiculous amount of boot entries that most of them are just trash.</p>
 
-    <p><img src="/assets/images/grub-rescue/shitty-uefi.jpg" alt="the pictures i took while trying to figure out which boot options are useless" /></p>
+    <p><img src="/assets/images/grub-rescue/shitty-uefi.jpg" alt="the pictures i took while trying to figure out which boot options are useless"></p>
 
     <p>These are the pictures I took for reference while trying to figure out which boot options are useless. Sorry for the bad quality. I didn’t think I would use them in a blog post.</p>
 
     <ul>
-      <li>While trying to fix the previous problems, I’ve spent enough time in the <code class="language-plaintext highlighter-rouge">/boot/efi</code> directory that make me understand where these grub entries are coming from. There were a lot of files belong to old systems. I simply deleted them and updated grub. All of the bad entries were gone. I want to draw your attention here: <em>I did not search for how to delete the unused grub entries. I just knew deleting their directories from <code class="language-plaintext highlighter-rouge">/boot/efi</code> will do the job. I am doing this sh*t! (Another hackerman moment :D )</em></li>
+      <li>While trying to fix the previous problems, I’ve spent enough time in the <code class="language-plaintext highlighter-rouge">/boot/efi</code> directory that make me understand where these grub entries are coming from. There were a lot of files belong to old systems. I simply deleted them and updated grub. All of the bad entries were gone. I want to draw your attention here: <em>I did not search for how to delete the unused grub entries. I just knew deleting their directories from <code class="language-plaintext highlighter-rouge">/boot/efi</code> will do the job. I am doing this sh*t! (Another hackerman moment :D )</em>
+</li>
       <li>In order to delete useless boot options from UEFI menu, I used <code class="language-plaintext highlighter-rouge">efibootmgr</code>. I searched for it on the internet, of course!
-        <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>efibootmgr <span class="nt">-v</span> <span class="c"># Check which entries you want to delete, say it is 0003.</span>
+        <div class="language-bash highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>efibootmgr <span class="nt">-v</span> <span class="c"># Check which entries you want to delete, say it is 0003.</span>
 <span class="nb">sudo </span>efibootmgr <span class="nt">-b</span> 0003 <span class="nt">-B</span> <span class="c"># This will delete third boot option. </span>
 </code></pre></div>        </div>
       </li>
@@ -380,7 +387,7 @@ grub-install <span class="nt">--efi-directory</span><span class="o">=</span>/boo
 
 <p>And finally! I know everything about how all these work. Another shady part of Linux is clear for me. Now:</p>
 
-<p><img src="/assets/images/grub-rescue/quote.jpg" alt="Give me a ruined computer and an Arch ISO, and I shall fix it for you." /></p>
+<p><img src="/assets/images/grub-rescue/quote.jpg" alt="Give me a ruined computer and an Arch ISO, and I shall fix it for you."></p>
 
         
       </section>
@@ -397,16 +404,7 @@ grub-install <span class="nt">--efi-directory</span><span class="o">=</span>/boo
 
       </footer>
 
-      <section class="page__share">
-  
-
-  <a href="https://twitter.com/intent/tweet?text=Never+Get+Trapped+in+Grub+Rescue+Again%21%20https%3A%2F%2Fsahinakkaya.dev%2F2022%2F03%2F03%2Fnever-get-trapped-in-grub-rescue-again.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
-
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F03%2F03%2Fnever-get-trapped-in-grub-rescue-again.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F03%2F03%2Fnever-get-trapped-in-grub-rescue-again.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
-</section>
-
+      
 
       
   <nav class="pagination">
@@ -473,7 +471,7 @@ grub-install <span class="nt">--efi-directory</span><span class="o">=</span>/boo
 
 
     <p class="archive__item-excerpt" itemprop="description">trap them and kill them!
-</p>
+There is a beautiful command in Linux called trap which traps signals and let you run specific commands when they invoked. There is ...</p>
   </article>
 </div>
 
@@ -629,13 +627,15 @@ Last week, I received an email from Let’s Encrypt reminding me to renew my cer
 
     
       <div class="search-content">
-        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+        <div class="search-content__inner-wrap">
+<form class="search-content__form" onkeydown="return event.key != 'Enter';">
     <label class="sr-only" for="search">
       Enter your search term...
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term...">
   </form>
-  <div id="results" class="results"></div></div>
+  <div id="results" class="results"></div>
+</div>
 
       </div>
     
@@ -657,7 +657,7 @@ Last week, I received an email from Let’s Encrypt reminding me to renew my cer
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2023 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">© 2023 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 <div class="page__footer-copyright">
   Check out the <a href="https://github.com/Asocia/sahinakkayadotdev">code</a> of this site.
 </div>

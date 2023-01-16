@@ -1,12 +1,12 @@
-<!doctype html>
+<!DOCTYPE html>
 <!--
   Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
   Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
--->
-<html lang="en" class="no-js">
+--><html lang="en" class="no-js">
   <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Automatically Build and Deploy Your Site using GitHub Actions and Webhooks - Şahin Akkaya’s Personal Page</title>
@@ -116,13 +116,17 @@
           /home/sahin/
           
         </a>
-        <ul class="visible-links"><li class="masthead__menu-item">
+        <ul class="visible-links">
+<li class="masthead__menu-item">
               <a href="/">Home</a>
-            </li><li class="masthead__menu-item">
+            </li>
+<li class="masthead__menu-item">
               <a href="/about/">About</a>
-            </li><li class="masthead__menu-item">
+            </li>
+<li class="masthead__menu-item">
               <a href="/contact/">Contact</a>
-            </li></ul>
+            </li>
+</ul>
         
         <button class="search__toggle" type="button">
           <span class="visually-hidden">Toggle search</span>
@@ -185,7 +189,7 @@
       
         
           
-            <li><a href="https://github.com/sahinakkayadev" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">sahinakkayadev</span></a></li>
+            <li><a href="https://github.com/sahinakkaya" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">sahinakkayadev</span></a></li>
           
         
           
@@ -335,7 +339,7 @@
 
 <h2 id="defining-the-problem-and-solution">Defining the problem and solution</h2>
 <p>As I said, my example will be automating the deployment of this site. Here is the normal workflow of me doing it manually:
-<img src="/assets/images/gh-actions-and-webhooks/workflow.png" alt="My workflow" /></p>
+<img src="/assets/images/gh-actions-and-webhooks/workflow.png" alt="My workflow"></p>
 
 <p>As you can see, the only place where my work is really required is writing the post. Other two steps can be automated. We will use GitHub Actions to generate the site content and Webhooks to let our server know about the new content so it can pull the changes. Let’s get started.</p>
 
@@ -372,7 +376,7 @@
     <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
       <span class="s">${{ runner.os }}-gems-</span>
 </code></pre></div></div>
-<p>We are done with the Actions part. You can see the final code <a href="https://github.com/Asocia/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml">here</a>. When you are also done with the code, just push it to trigger the action.</p>
+<p>We are done with the Actions part. You can see the final code <a href="https://github.com/sahinakkaya/sahinakkayadotdev/blob/main/.github/workflows/jekyll.yml">here</a>. When you are also done with the code, just push it to trigger the action.</p>
 
 <h3 id="setting-up-the-webhook-and-related-endpoint">Setting up the Webhook and related endpoint</h3>
 <p>Now that we set up our Action to build the site, we need to let our server know about the changes so that it can pull the changes.</p>
@@ -380,7 +384,7 @@
 <h4 id="creating-a-webhook-from-github">Creating a Webhook from GitHub</h4>
 
 <p>To add a Webhook, open your repository in browser and navigate to <em>‘Settings &gt; Webhooks’</em> and click <em>‘Add Webhook’</em>. Fill in the form with appropriate values. Here is an example:
-<img src="/assets/images/gh-actions-and-webhooks/add-webhook.png" alt="Webhook form example" /></p>
+<img src="/assets/images/gh-actions-and-webhooks/add-webhook.png" alt="Webhook form example"></p>
 
 <p>This is all you have to do from GitHub. Now, whenever there is a <em><code class="language-plaintext highlighter-rouge">push</code></em> event to your repository, GitHub will send a POST request to your <em>payload url</em> with the details.</p>
 
@@ -491,7 +495,8 @@ WantedBy=multi-user.target
   <li>Every GitHub Action produces a log that you can examine. Check them to see if anything is odd.</li>
   <li>In the <em>Webhooks</em> tab, there is a sub-tab called <em>Recent Deliveries</em>. You can take a look at there to see the results of the requests from your hooks.</li>
   <li>You can always test your code locally with <code class="language-plaintext highlighter-rouge">curl</code>:
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ curl -i -X POST -H 'Content-Type: application/json' -d '{"foo": "bar", "bar": "baz"}' https://yourdomain.com/postreceive/
+    <div class="language-plaintext highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code>❯ curl -i -X POST -H 'Content-Type: application/json' -d '{"foo": "bar", "bar": "baz"}' https://yourdomain.com/postreceive/
 </code></pre></div>    </div>
   </li>
 </ul>
@@ -514,16 +519,7 @@ WantedBy=multi-user.target
 
       </footer>
 
-      <section class="page__share">
-  
-
-  <a href="https://twitter.com/intent/tweet?text=Automatically+Build+and+Deploy+Your+Site+using+GitHub+Actions+and+Webhooks%20https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
-
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fsahinakkaya.dev%2F2022%2F01%2F04%2Fbuild-and-deploy-automatically.html" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
-</section>
-
+      
 
       
   <nav class="pagination">
@@ -590,7 +586,7 @@ WantedBy=multi-user.target
 
 
     <p class="archive__item-excerpt" itemprop="description">trap them and kill them!
-</p>
+There is a beautiful command in Linux called trap which traps signals and let you run specific commands when they invoked. There is ...</p>
   </article>
 </div>
 
@@ -746,13 +742,15 @@ Last week, I received an email from Let’s Encrypt reminding me to renew my cer
 
     
       <div class="search-content">
-        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+        <div class="search-content__inner-wrap">
+<form class="search-content__form" onkeydown="return event.key != 'Enter';">
     <label class="sr-only" for="search">
       Enter your search term...
     </label>
-    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term...">
   </form>
-  <div id="results" class="results"></div></div>
+  <div id="results" class="results"></div>
+</div>
 
       </div>
     
@@ -774,7 +772,7 @@ Last week, I received an email from Let’s Encrypt reminding me to renew my cer
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2023 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">© 2023 Şahin Akkaya's Personal Page. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 <div class="page__footer-copyright">
   Check out the <a href="https://github.com/Asocia/sahinakkayadotdev">code</a> of this site.
 </div>
