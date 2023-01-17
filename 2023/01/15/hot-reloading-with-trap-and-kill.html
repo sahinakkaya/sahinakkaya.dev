@@ -447,7 +447,7 @@ Hello from ./script2. i is 3
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 <span class="nb">echo</span> <span class="s2">"My pid is </span><span class="nv">$$</span><span class="s2">. You know what to do  ( ͡° ͜ʖ ͡°)"</span>
-<span class="nb">echo</span> <span class="s2">"You can also kill me with 'kill -s INT -</span><span class="se">\`</span><span class="s2">pgrep </span><span class="sb">`</span><span class="nb">basename</span> <span class="nv">$0</span><span class="sb">`</span><span class="se">\`</span><span class="s2">'"</span>
+<span class="nb">echo</span> <span class="s2">"You can also kill me with 'kill -s INT -</span><span class="se">\`</span><span class="s2">pgrep -f </span><span class="sb">`</span><span class="nb">basename</span> <span class="nv">$0</span><span class="sb">`</span><span class="se">\`</span><span class="s2">'"</span>
 
 <span class="nv">pids</span><span class="o">=()</span> <span class="c"># we will store the pid's of child scripts here</span>
 <span class="nv">scripts_to_be_executed</span><span class="o">=(</span><span class="s2">"./script1"</span> <span class="s2">"./script2"</span><span class="o">)</span>
@@ -502,7 +502,7 @@ restart_scripts
 <p>Here is an example run:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>❯ ./trap_multiple
 My pid is 3124123. You know what to do  ( ͡° ͜ʖ ͡°)
-You can also kill me with 'kill -s INT -`pgrep trap_multiple`'
+You can also kill me with 'kill -s INT -`pgrep -f trap_multiple`'
 Hello from ./script1. i is 1
 Hello from ./script2. i is 1
 Hello from ./script2. i is 2
