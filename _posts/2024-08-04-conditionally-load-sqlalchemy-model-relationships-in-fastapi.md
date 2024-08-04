@@ -261,21 +261,14 @@ This is all we need to do for our sqlalchemy models. Now, let's implement the fu
 
 
 from typing import Any
-
-from models import RelationshipLoader
 from pydantic import create_model
-
-
-def generate_load_strategies(sqlalchemy_model: type[RelationshipLoader]) -> dict[str, Any]:
-    return sqlalchemy_model.get_relationships()
-
 
 def generate_pydantic_model(model_name, strategies: dict[str, Any]) -> type[BaseModel]:
     pydantic_fields = dict.fromkeys(strategies, (bool | None, None))
     return create_model(model_name, **pydantic_fields)
 ```
 
-And lastly, let's use these functions in `app.py` to generate pydantic schemas and use it in our router:
+And lastly, let's use this function in `app.py` to generate pydantic schemas and use it in our router:
 
 ```python
 # app.py
