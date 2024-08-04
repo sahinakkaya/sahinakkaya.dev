@@ -6,14 +6,11 @@ tags:  fastapi sqlalchemy pydantic
 
 Suppose you have a FastAPI app responsible for talking with database via sqlalchemy and retrieving data. The sqlalchemy models have some `relationship`s and the job of your app is exposing this database models with or without relationships based on the operation. You can't make use of relationship loading strategies (`'selectin'`, `'joined'` etc.) because FastAPI tries to convert the result to pydantic schemas and pydantic tries to load the relationship even though you don't need it to load for that specific operation. There are three things you can do: 
 
-1. Define the loading strategy in your sqlalchemy models and create different pydantic schemas for the same entity including/excluding different fields. (i.e. if you don't need to load `Book.reviews` for specific endpoint, create a new pydantic schema for books without including `reviews`). After that, create different routes for returning correct schema. (`get_books_with_reviews`, `get_books_without_reviews` etc.)
-
+1. Define the loading strategy in your sqlalchemy models and create different pydantic schemas for the same entity including/excluding different fields. (i.e. if you don't need to load `Book.reviews` for specific endpoint, create a new pydantic schema for books without including `reviews`). After that, create different routes for returning correct schema. (`get_books_with_reviews`, `get_books_without_reviews` etc.) <br/>
 This is the easiest option. Once you decided how each field should be loaded, you only need to create different pydantic schema for loading different fields. The downside is that you will have a lot of schemas and maintaining them will be hard.
-2. Create a pydantic schema with all fields and declare some fields as nullable. Do not load anything by default in sqlalchemy models (`lazy='noload'`).  Create different routes returning the same schema but inside the routes, manually edit the `query.options` to load different fields.
-
+2. Create a pydantic schema with all fields and declare some fields as nullable. Do not load anything by default in sqlalchemy models (`lazy='noload'`).  Create different routes returning the same schema but inside the routes, manually edit the `query.options` to load different fields. <br/>
 This is what we were doing in our project. Only implementing the routes that we need 90% of the time was working fine for us. If we need more data, we were doing a second request to our API and merging the results. This becomes tedious after some time which is why we decided to move away from it.
-3. Somehow get the loading options as input from users of your API and return what is requested. 
-
+3. Somehow get the loading options as input from users of your API and return what is requested.  <br/>
 That's it! If such endpoint exists all our problems would be solved. In this post, we will implement that!
 
 ![One endpoint to rule them all](/assets/images/sqlalchemy/ring.jpg)
