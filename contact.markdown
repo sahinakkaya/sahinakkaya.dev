@@ -1,6 +1,7 @@
 ---
 layout: single
 title: Contact
+classes: wide
 permalink: /contact/
 ---
 You can contact me via:
