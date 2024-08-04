@@ -182,8 +182,28 @@ async def get_reviews():
     return result
 
 ```
-Let's test to see if we are at the same point. Run `uvicorn app:app --reload` then go to `http://127.0.0.1:8000/docs`. If everything went correctly you should see two authors returned when you perform a GET request on `/authors` endpoint.
-![Example result](/assets/images/sqlalchemy/res.png)
+Let's test to see if we are at the same point. Run `uvicorn app:app --reload` then perform a GET request for `/authors` endpoint. You should see two authors returned:
+
+```sh
+
+❯ curl -X 'GET' \
+  'http://127.0.0.1:8000/authors' \
+  -H 'accept: application/json' | jq
+[
+  {
+    "id": 1,
+    "name": "Author 1",
+    "books": [],
+    "awards": []
+  },
+  {
+    "id": 2,
+    "name": "Author 2",
+    "books": [],
+    "awards": []
+  }
+]
+```
 
 Now, let's start implementing what's required to load different fields based on user input. First of all, we need to have a way to determine the relationships of our database models. Then we will use these relationships to generate pydantic schemas which represents loading options. We will then use these schemas as input to our endpoint and inside our endpoint, we will load required fields.
 
@@ -307,7 +327,7 @@ async def get_reviews(options: ReviewLoadOptions):
 And that's all! If everything went fine, you should be able to load your database models with whatever fields you like:
 
 ```sh
-❯ curl -S -X 'POST' \
+❯ curl -X 'POST' \
   'http://127.0.0.1:8000/authors' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
