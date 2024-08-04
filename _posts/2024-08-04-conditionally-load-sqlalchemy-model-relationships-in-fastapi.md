@@ -189,6 +189,7 @@ Now, let's start implementing what's required to load different fields based on 
 
 
 1. Define a `RelationshipLoader` class in `models.py`.
+
 ```python
 from typing import Any
 from sqlalchemy.inspection import inspect

@@ -4,12 +4,11 @@ title: About
 permalink: /about/
 ---
 
-Hi, my name is **Şahin Akkaya**. I am a 4th year student studying
-Computer Engineering at [ITU][itu]. I am a Free Software enthusiast,
-Python lover and perfectionist. I like to tinker things until they 
-are *just right*. I also believe there is no such thing as perfect so
-I never stop. I will do my best to make things better and I love doing
-it so far.
+Hi, my name is **Şahin Akkaya**. I am a Computer Engineer graduated
+from [ITU][itu]. I am a Free Software enthusiast, Python lover and 
+perfectionist. I like to tinker things until they are *just right*. 
+I also believe there is no such thing as perfect so I never stop. 
+I will do my best to make things better and I love doing it so far.
 
 > Roses are red \\
 Violets are blue \\
