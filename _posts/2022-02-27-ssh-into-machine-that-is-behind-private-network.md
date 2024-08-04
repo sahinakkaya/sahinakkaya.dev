@@ -1,6 +1,7 @@
 ---
 title:  "SSH into Machine That Is Behind a Private Network"
 date:   2022-02-27 00:40:00 +0300
+classes: wide
 tags:  ssh private-network remote-port-forwarding
 ---
 

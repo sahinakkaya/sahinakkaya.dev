@@ -1,6 +1,7 @@
 ---
 title:  "Conditionally load SQLAlchemy model relationships in FastAPI"
 date: 2024-08-04 12:55:01  +0300
+classes: wide
 tags:  fastapi sqlalchemy pydantic
 ---
 

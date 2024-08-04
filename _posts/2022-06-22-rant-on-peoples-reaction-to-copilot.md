@@ -1,6 +1,7 @@
 ---
 title:  "Rant: Stop whatever you are doing and learn how licenses work"
 date:   2022-06-22 10:46:00 +0300
+classes: wide
 tags:  copilot license github
 ---
 Recently, Github [announced](https://github.blog/changelog/2022-06-21-github-copilot-is-now-available-to-individual-developers/) 

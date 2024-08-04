@@ -1,6 +1,7 @@
 ---
 title:  "Stop cat-pipe'ing, You Are Doing It Wrong!"
 date:   2022-01-01 18:00:00 +0300
+classes: wide
 tags: cat grep linux command-line
 ---
 ```bash

@@ -1,6 +1,7 @@
 ---
 title:  "Hot-Reload Long Running Shell Scripts (feat. trap / kill)"
 date:   2023-01-16 00:48:08 +0300
+classes: wide
 tags:  trap kill linux
 ---
 

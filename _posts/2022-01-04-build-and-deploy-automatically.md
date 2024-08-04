@@ -1,6 +1,7 @@
 ---
 title:  "Automatically Build and Deploy Your Site using GitHub Actions and Webhooks"
 date:   2022-01-04 20:40:00 +0300
+classes: wide
 tags: github-actions github-webhooks ci-cd
 ---
 In this post I will explain how you can use GitHub to automate the build and deployment processes that you have. I am going to automate the deployment of this site but you can do whatever you want. Just understanding the basics will be enough. 

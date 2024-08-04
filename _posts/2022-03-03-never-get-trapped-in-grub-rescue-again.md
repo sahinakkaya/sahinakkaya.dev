@@ -1,6 +1,7 @@
 ---
 title:  "Never Get Trapped in Grub Rescue Again!"
 date:   2022-03-03 03:46:00 +0300
+classes: wide
 tags:  linux grub partition uefi
 ---
 

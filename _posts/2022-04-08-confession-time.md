@@ -2,6 +2,7 @@
 title:  "Confession Time"
 date:   2022-04-08 18:46:00 +0300
 last_modified_at: 2022-04-13
+classes: wide
 tags:  ssl
 ---
 

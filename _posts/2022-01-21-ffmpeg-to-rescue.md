@@ -2,6 +2,7 @@
 title:  "Using ffmpeg for Simple Video Editing"
 date:   2022-01-21 23:40:00 +0300
 tags: cli ffmpeg
+classes: wide
 excerpt: 
 ---
 

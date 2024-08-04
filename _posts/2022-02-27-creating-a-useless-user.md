@@ -1,6 +1,7 @@
 ---
 title:  "Creating a *Useless* User"
 date:   2022-02-27 16:40:00 +0300
+classes: wide
 tags:  linux permissions privileges 
 ---
 ## Story

@@ -1,6 +1,7 @@
 ---
 title:  "First blog post"
 date:   2021-12-25 02:54:08 +0300
+classes: wide
 excerpt: Hello, World!* So here I am and welcome to my first blog. Having a personal space on the Internet has been a dream for me for years and I am happy that it fi...
 ---
 <style>
