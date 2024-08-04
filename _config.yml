@@ -64,7 +64,7 @@ author:
     - label: "sahinakkaya"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/sahinakkaya"
-    - label: "Asocia"
+    - label: "sahinakkaya"
       icon: "fab fa-fw fa-stack-overflow"
       url: "https://stackoverflow.com/users/9608759"
     - label: "@sahinakkayadev"
@@ -75,7 +75,7 @@ author:
       url: "mailto:sahin@sahinakkaya.dev"
     - label: "Resume"
       icon: "fas fa-fw fa-id-card"
-      url: "/assets/docs/resume.pdf"
+      url: "https://resume.sahinakkaya.dev"
 
 
 masthead_title: "/home/sahin/"
