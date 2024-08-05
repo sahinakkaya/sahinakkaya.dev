@@ -254,12 +254,9 @@ class RelationshipLoader:
                     [*exclude_classes, cls] # excluding the current class because we don't want bidirectional relationships to create infinite loop
                 )
                 for nested_rel, nested_strategy in nested_relationships.items():
-                    # if it is a nested relationship, I am assuming it should be loaded with selectinload.
-                    # i don't know a better way to handle this but this is working fine for us.
-                    combined = load_strategy["selectinload"].copy()
-                    combined.extend(nested_strategy["selectinload"])
-                    combined = {"selectinload": combined}
-                    relationships[f"{rel.key}.{nested_rel}"] = combined
+                    ((strategy_name, attr),) = load_strategy.items()
+                    ((_, nested_attr),) = nested_strategy.items()
+                    relationships[f"{rel.key}.{nested_rel}"] = {strategy_name: [*attr, *nested_attr]}
 
         return relationships
 
