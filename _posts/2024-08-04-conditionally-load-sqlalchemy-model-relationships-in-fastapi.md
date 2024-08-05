@@ -243,7 +243,7 @@ class RelationshipLoader:
             load_strategy = ( # if it is a one to one or many to one relationship we are loading it with selectinload strategy, else joinedload
                 {"selectinload": [getattr(cls, rel.key)]}
                 if rel.direction.name in ["MANYTOONE", "ONETOMANY"]
-                else {"joinedload": getattr(cls, rel.key)}
+                else {"joinedload": [getattr(cls, rel.key)]}
             )
             relationships[rel.key] = load_strategy
 
