@@ -10,6 +10,8 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head nonce={this.props.nonce}>
+          {/* Prevent white flash before styled-components styles load */}
+          <style>{`body { background-color: #020c1b; }`}</style>
           <script
             src="https://challenges.cloudflare.com/turnstile/v0/api.js"
             async
