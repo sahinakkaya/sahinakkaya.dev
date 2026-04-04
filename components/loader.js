@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import anime from 'animejs';
+import Typewriter from 'typewriter-effect';
 import styled from 'styled-components';
-import { IconLoader } from './icons';
 
 const StyledLoader = styled.div`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -15,82 +14,63 @@ const StyledLoader = styled.div`
   height: 100%;
   background-color: var(--dark-navy);
   z-index: 99;
+  transition: opacity 0.5s ease;
+  opacity: ${({ $isHiding }) => ($isHiding ? 0 : 1)};
 
-  .logo-wrapper {
-    width: max-content;
-    max-width: 100px;
-    transition: var(--transition);
-    opacity: ${props => (props.$isMounted ? 1 : 0)};
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-      margin: 0 auto;
-      fill: none;
-      user-select: none;
-      #B {
-        opacity: 0;
-      }
-    }
+  .terminal {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: clamp(28px, 6vw, 48px);
+    letter-spacing: 0.05em;
+    opacity: ${({ $isMounted }) => ($isMounted ? 1 : 0)};
+    transition: opacity 0.2s ease;
+  }
+
+  .prompt {
+    color: var(--slate);
+    margin-right: 0.4em;
+    user-select: none;
+  }
+
+  .Typewriter__wrapper {
+    color: var(--green);
+  }
+
+  .Typewriter__cursor {
+    color: var(--green);
   }
 `;
 
 const Loader = ({ finishLoading }) => {
   const [isMounted, setIsMounted] = useState(false);
-
-  const animate = () => {
-    const loader = anime.timeline({
-      complete: () => {
-        // Remove hidden class from body when animation completes
-        if (typeof document !== 'undefined') {
-          document.body.classList.remove('hidden');
-        }
-        finishLoading();
-      },
-    });
-
-    loader
-      .add({
-        targets: '#logo path',
-        delay: 300,
-        duration: 1500,
-        easing: 'easeInOutQuart',
-        strokeDashoffset: [anime.setDashoffset, 0],
-      })
-      .add({
-        targets: '#logo #B',
-        duration: 700,
-        easing: 'easeInOutQuart',
-        opacity: 1,
-      })
-      .add({
-        targets: '#logo',
-        delay: 500,
-        duration: 300,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        scale: 0.1,
-      })
-      .add({
-        targets: '.loader',
-        duration: 200,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        zIndex: -1,
-      });
-  };
+  const [isHiding, setIsHiding] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setIsMounted(true), 10);
-    animate();
+    const timeout = setTimeout(() => setIsMounted(true), 50);
     return () => clearTimeout(timeout);
   }, []);
 
-  return (
-    <StyledLoader className="loader" $isMounted={isMounted}>
+  const handleInit = typewriter => {
+    typewriter
+      .typeString('Hi there!')
+      .callFunction(() => {
+        if (typeof document !== 'undefined') {
+          document.body.classList.remove('hidden');
+        }
+        setTimeout(() => {
+          setIsHiding(true);
+          setTimeout(finishLoading, 500);
+        }, 900);
+      })
+      .start();
+  };
 
-      <div className="logo-wrapper">
-        <IconLoader />
+  return (
+    <StyledLoader className="loader" $isMounted={isMounted} $isHiding={isHiding}>
+      <div className="terminal">
+        <span className="prompt">&gt;</span>
+        <Typewriter onInit={handleInit} options={{ delay: 80, cursor: '▋' }} />
       </div>
     </StyledLoader>
   );
