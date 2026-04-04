@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import SEOHead from './head';
@@ -17,6 +17,18 @@ const Layout = ({ children }) => {
   const router = useRouter();
   const isHome = router.pathname === '/';
   const [isLoading, setIsLoading] = useState(isHome);
+  const visitChecked = useRef(false);
+
+  // Only show the loader animation on the very first visit
+  useEffect(() => {
+    if (!isHome || visitChecked.current) return;
+    visitChecked.current = true;
+    if (localStorage.getItem('hasVisited')) {
+      setIsLoading(false);
+    } else {
+      localStorage.setItem('hasVisited', '1');
+    }
+  }, []);
 
 
   const handleExternalLinks = () => {
