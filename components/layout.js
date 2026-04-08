@@ -6,6 +6,7 @@ import Loader from './loader';
 import Nav from './nav';
 import Social from './social';
 import Email from './email';
+import Footer from './footer';
 
 const StyledContent = styled.div`
   display: flex;
@@ -82,6 +83,7 @@ const Layout = ({ children }) => {
             <div id="content">
               {children}
             </div>
+            <Footer />
           </StyledContent>
         )}
       </div>
