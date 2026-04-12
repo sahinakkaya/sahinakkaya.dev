@@ -88,8 +88,8 @@ jobs:
           -H "X-Hub-Signature-256: sha256=$(echo -n "$BODY" | openssl dgst -sha256 -hmac "$APP_KEY" | sed 's/^.* //')" \
           -H "X-GitHub-Event: package" \
           -H "Content-Type: application/json" \
-          -d '{"package": "portfolio"}'
+          -d '{"package": "sahinakkayadev"}'
       env:
-        BODY: '{"package": "portfolio"}'
+        BODY: '{"package": "sahinakkayadev"}'
         APP_KEY: ${{ secrets.APP_KEY }}
 
