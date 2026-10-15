@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import Typewriter from 'typewriter-effect';
 import { chat } from '../../lib/config';
 
+const STREAM_CHARACTER_DELAY = 10;
+
 const StyledChatContainer = styled.div`
   /* Let the parent allocate the available space, but keep the console usable
      when the hero has to grow on a short viewport. */
@@ -152,26 +154,6 @@ const StyledMessage = styled.div`
 
     @media (max-width: 480px) {
       font-size: 12px;
-    }
-  }
-`;
-
-const StyledStreamingIndicator = styled.span`
-  display: inline-flex;
-  align-items: center;
-  margin-left: ${({ $hasContent }) => ($hasContent ? '8px' : '0')};
-  color: ${({ theme }) => theme.colors.green};
-  font-size: 12px;
-  letter-spacing: 2px;
-  animation: pulse 1s ease-in-out infinite;
-
-  @keyframes pulse {
-    0%,
-    100% {
-      opacity: 0.35;
-    }
-    50% {
-      opacity: 1;
     }
   }
 `;
@@ -403,6 +385,8 @@ const Chat = () => {
   const retryTimeoutRef = useRef(null);
   const connectWebSocketRef = useRef(null);
   const activeResponseRef = useRef(null);
+  const pendingResponseTextRef = useRef('');
+  const streamingTimerRef = useRef(null);
   const messageIdRef = useRef(0);
   const [isStreaming, setIsStreaming] = useState(false);
 
@@ -427,6 +411,8 @@ const Chat = () => {
     activeResponseRef.current = {
       id: assistantMessage.id,
       correlationId: null,
+      renderedContent: '',
+      finalContent: null,
     };
     setIsStreaming(true);
     setMessages(prev => [...prev, assistantMessage]);
@@ -454,12 +440,83 @@ const Chat = () => {
     }
 
     activeResponseRef.current = null;
+    pendingResponseTextRef.current = '';
+    if (streamingTimerRef.current) {
+      clearInterval(streamingTimerRef.current);
+      streamingTimerRef.current = null;
+    }
     setIsStreaming(false);
     setMessages(prev =>
       prev.map(message =>
         message.id === activeResponse.id ? { ...message, isStreaming: false } : message,
       ),
     );
+  };
+
+  const finishStreamingResponse = () => {
+    const activeResponse = activeResponseRef.current;
+
+    if (!activeResponse || activeResponse.finalContent === null) {
+      return;
+    }
+
+    activeResponseRef.current = null;
+    pendingResponseTextRef.current = '';
+    if (streamingTimerRef.current) {
+      clearInterval(streamingTimerRef.current);
+      streamingTimerRef.current = null;
+    }
+    setIsStreaming(false);
+    setMessages(prev =>
+      prev.map(message =>
+        message.id === activeResponse.id
+          ? {
+            ...message,
+            // response.done is authoritative, including when it is an empty string.
+            content: activeResponse.finalContent,
+            isStreaming: false,
+          }
+          : message,
+      ),
+    );
+  };
+
+  const animateStreamingResponse = () => {
+    if (streamingTimerRef.current) {
+      return;
+    }
+
+    streamingTimerRef.current = setInterval(() => {
+      const activeResponse = activeResponseRef.current;
+
+      if (!activeResponse) {
+        clearInterval(streamingTimerRef.current);
+        streamingTimerRef.current = null;
+        return;
+      }
+
+      if (pendingResponseTextRef.current) {
+        const nextCharacter = pendingResponseTextRef.current.slice(0, 1);
+        pendingResponseTextRef.current = pendingResponseTextRef.current.slice(1);
+        activeResponse.renderedContent += nextCharacter;
+        setMessages(prev =>
+          prev.map(message =>
+            message.id === activeResponse.id
+              ? { ...message, content: activeResponse.renderedContent }
+              : message,
+          ),
+        );
+      }
+
+      if (!pendingResponseTextRef.current) {
+        if (activeResponse.finalContent !== null) {
+          finishStreamingResponse();
+        } else {
+          clearInterval(streamingTimerRef.current);
+          streamingTimerRef.current = null;
+        }
+      }
+    }, STREAM_CHARACTER_DELAY);
   };
 
   const appendResponseDelta = ({ content, correlation_id: correlationId }) => {
@@ -473,13 +530,8 @@ const Chat = () => {
       activeResponse.correlationId = correlationId;
     }
 
-    setMessages(prev =>
-      prev.map(message =>
-        message.id === activeResponse.id
-          ? { ...message, content: `${message.content}${content || ''}` }
-          : message,
-      ),
-    );
+    pendingResponseTextRef.current += content || '';
+    animateStreamingResponse();
   };
 
   const completeStreamingResponse = ({ content, correlation_id: correlationId }) => {
@@ -497,20 +549,27 @@ const Chat = () => {
       return;
     }
 
-    activeResponseRef.current = null;
-    setIsStreaming(false);
-    setMessages(prev =>
-      prev.map(message =>
-        message.id === activeResponse.id
-          ? {
-            ...message,
-            // response.done is authoritative, including when it is an empty string.
-            content: typeof content === 'string' ? content : message.content,
-            isStreaming: false,
-          }
-          : message,
-      ),
-    );
+    activeResponse.finalContent =
+      typeof content === 'string'
+        ? content
+        : `${activeResponse.renderedContent}${pendingResponseTextRef.current}`;
+
+    // Discard the received fragments in favor of the authoritative final content.
+    if (activeResponse.finalContent.startsWith(activeResponse.renderedContent)) {
+      pendingResponseTextRef.current = activeResponse.finalContent.slice(
+        activeResponse.renderedContent.length,
+      );
+    } else {
+      activeResponse.renderedContent = '';
+      pendingResponseTextRef.current = activeResponse.finalContent;
+      setMessages(prev =>
+        prev.map(message =>
+          message.id === activeResponse.id ? { ...message, content: '' } : message,
+        ),
+      );
+    }
+
+    animateStreamingResponse();
   };
 
   // Auto-scroll to bottom when new messages arrive
@@ -754,6 +813,10 @@ const Chat = () => {
         clearTimeout(retryTimeoutRef.current);
         retryTimeoutRef.current = null;
       }
+      if (streamingTimerRef.current) {
+        clearInterval(streamingTimerRef.current);
+        streamingTimerRef.current = null;
+      }
       if (wsRef.current) {
         try {
           wsRef.current.onopen = null;
@@ -864,17 +927,7 @@ const Chat = () => {
           messages.map(message => (
             <StyledMessage key={message.id} $isUser={message.type === 'sent'}>
               <div className="message-prompt">{message.type === 'sent' ? '$' : '>'}</div>
-              <div className="message-content">
-                {message.content}
-                {message.isStreaming && (
-                  <StyledStreamingIndicator
-                    $hasContent={Boolean(message.content)}
-                    aria-label="Assistant is typing"
-                    role="status">
-                    <span aria-hidden="true">•••</span>
-                  </StyledStreamingIndicator>
-                )}
-              </div>
+              <div className="message-content">{message.content}</div>
             </StyledMessage>
           ))
         )}
