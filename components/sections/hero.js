@@ -11,16 +11,12 @@ const StyledHeroSection = styled.section`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 100vh;
+  /* dvh follows mobile browser chrome; svh/vh keep this safe in older browsers. */
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
   padding: 100px 0 40px 0;
-  overflow: hidden;
-
-  @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
-    height: auto;
-    min-height: 100vh;
-    padding-top: 100px;
-    padding-bottom: 40px;
-  }
+  overflow: visible;
 
   @media (max-width: 768px) {
     padding-bottom: 30px;
@@ -80,11 +76,19 @@ const StyledHeroSection = styled.section`
     width: 100%;
     margin-top: 60px;
     max-width: 1000px;
-    flex: 1;
+    flex: 1 1 21rem;
     display: flex;
     flex-direction: column;
-    min-height: 0;
-    overflow: hidden;
+    min-height: 21rem;
+
+    > h3 {
+      flex: 0 0 auto;
+    }
+
+    > :last-child {
+      flex: 1 1 auto;
+      min-height: 0;
+    }
 
     @media (max-width: 768px) {
       margin-top: 40px;
@@ -164,7 +168,6 @@ const Hero = () => {
   //   </a>
   // );
 
-
   const items = [one, two, three, four];
 
   return (
@@ -185,10 +188,10 @@ const Hero = () => {
             ))}
         </TransitionGroup>
       )}
-        <div className="hero-chat-wrapper">
-          <h3>Talk to my digital copy — the one who escaped the Matrix.</h3>
-          <Chat />
-        </div>
+      <div className="hero-chat-wrapper">
+        <h3>Talk to my digital copy — the one who escaped the Matrix.</h3>
+        <Chat />
+      </div>
     </StyledHeroSection>
   );
 };

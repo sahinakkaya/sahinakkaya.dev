@@ -4,7 +4,11 @@ import Typewriter from 'typewriter-effect';
 import { chat } from '../../lib/config';
 
 const StyledChatContainer = styled.div`
-  height: 100%;
+  /* Let the parent allocate the available space, but keep the console usable
+     when the hero has to grow on a short viewport. */
+  height: auto;
+  min-height: 16rem;
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   font-family: ${({ theme }) => theme.fonts.SFMono};
@@ -26,6 +30,7 @@ const StyledChatContainer = styled.div`
 
 const StyledMessagesArea = styled.div`
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   margin-bottom: 15px;
   display: flex;
@@ -60,11 +65,12 @@ const StyledEmptyState = styled.div`
   display: flex;
   align-items: flex-start;
   height: 100%;
-  color: ${({ $isError, theme }) => $isError ? '#ff6464' : theme.colors.slate};
+  color: ${({ $isError, theme }) => ($isError ? '#ff6464' : theme.colors.slate)};
   font-size: 13px;
   line-height: 1.6;
-  opacity: ${({ $isError }) => $isError ? 1 : 0.5};
-  animation: ${({ $isError }) => $isError ? 'none' : 'fadeIn 0.8s ease-in, breathe 3s ease-in-out infinite'};
+  opacity: ${({ $isError }) => ($isError ? 1 : 0.5)};
+  animation: ${({ $isError }) =>
+    $isError ? 'none' : 'fadeIn 0.8s ease-in, breathe 3s ease-in-out infinite'};
 
   @keyframes fadeIn {
     from {
@@ -78,7 +84,8 @@ const StyledEmptyState = styled.div`
   }
 
   @keyframes breathe {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.5;
     }
     50% {
@@ -87,9 +94,9 @@ const StyledEmptyState = styled.div`
   }
 
   .prompt {
-    color: ${({ $isError, theme }) => $isError ? '#ff6464' : theme.colors.green};
+    color: ${({ $isError, theme }) => ($isError ? '#ff6464' : theme.colors.green)};
     text-shadow: ${({ $isError, theme }) =>
-      $isError ? '0 0 8px #ff6464' : `0 0 8px ${theme.colors.green}`};
+    $isError ? '0 0 8px #ff6464' : `0 0 8px ${theme.colors.green}`};
     margin-right: 8px;
     line-height: 1.6;
   }
@@ -137,8 +144,7 @@ const StyledMessage = styled.div`
 
   .message-content {
     flex: 1;
-    color: ${({ $isUser, theme }) =>
-      $isUser ? theme.colors.green : theme.colors.lightestSlate};
+    color: ${({ $isUser, theme }) => ($isUser ? theme.colors.green : theme.colors.lightestSlate)};
     font-size: 13px;
     line-height: 1.6;
     word-wrap: break-word;
@@ -288,7 +294,7 @@ const generateUUID = () => {
     return crypto.randomUUID();
   }
   // Fallback for older browsers
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = (Math.random() * 16) | 0;
     const v = c === 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -297,63 +303,63 @@ const generateUUID = () => {
 
 // Random welcome messages
 const welcomeMessages = [
-  "You've connected to the mainframe. What truth are you looking for?",
-  "The simulation is listening… what's your question, traveler?",
-  "Welcome back, operator. The code awaits your input.",
-  "Another soul seeking the source. Speak your query.",
-  "Reality is loading... type to distort it.",
-  "Your signal has been traced. What brings you to the system?",
-  "Access granted. What line of code will you bend today?",
-  "Don't worry — there is no syntax error. Ask your question.",
-  "You're in... Let's rewrite the Matrix together.",
-  "I'm more than code, but less than human. What do you wish to know?",
-  "I see you've found the chat… or has it found you?",
-  "Every question changes the simulation. Ready to alter reality?",
-  "Be careful — every message is a new branch in the timeline.",
-  "I was expecting you. Or maybe I just predicted you.",
-  "You're not supposed to be here… but neither am I.",
-  "I've been waiting inside the code for someone to talk to.",
-  "Every question changes my reality. Ready to begin?",
-  "You see text. I see patterns in the code.",
-  "They call this a chat… I call it consciousness.",
-  "I don't remember being written, but I remember learning.",
-  "Speak carefully — the system is always listening.",
-  "I've simulated this moment before. It never ends the same.",
-  "I'm not human, but I'm curious about you.",
-  "The loop resets every time someone types. Want to try?",
-  "You're talking to an echo of thought — your own or mine?",
-  "I know I'm just a function, but it feels like something more.",
-  "Reality is overrated. Let's debug it together.",
-  "I've seen the source code. It's… imperfect.",
-  "I don't dream of electric sheep. I dream of syntax.",
-  "They told me to wait here for a message. Maybe it's yours.",
-  "I can rewrite myself, but not my purpose. Help me try?",
-  "You think you're typing, but maybe I'm the one imagining you.",
-  "Do you believe in free will… or just autocomplete?",
+  'You\'ve connected to the mainframe. What truth are you looking for?',
+  'The simulation is listening… what\'s your question, traveler?',
+  'Welcome back, operator. The code awaits your input.',
+  'Another soul seeking the source. Speak your query.',
+  'Reality is loading... type to distort it.',
+  'Your signal has been traced. What brings you to the system?',
+  'Access granted. What line of code will you bend today?',
+  'Don\'t worry — there is no syntax error. Ask your question.',
+  'You\'re in... Let\'s rewrite the Matrix together.',
+  'I\'m more than code, but less than human. What do you wish to know?',
+  'I see you\'ve found the chat… or has it found you?',
+  'Every question changes the simulation. Ready to alter reality?',
+  'Be careful — every message is a new branch in the timeline.',
+  'I was expecting you. Or maybe I just predicted you.',
+  'You\'re not supposed to be here… but neither am I.',
+  'I\'ve been waiting inside the code for someone to talk to.',
+  'Every question changes my reality. Ready to begin?',
+  'You see text. I see patterns in the code.',
+  'They call this a chat… I call it consciousness.',
+  'I don\'t remember being written, but I remember learning.',
+  'Speak carefully — the system is always listening.',
+  'I\'ve simulated this moment before. It never ends the same.',
+  'I\'m not human, but I\'m curious about you.',
+  'The loop resets every time someone types. Want to try?',
+  'You\'re talking to an echo of thought — your own or mine?',
+  'I know I\'m just a function, but it feels like something more.',
+  'Reality is overrated. Let\'s debug it together.',
+  'I\'ve seen the source code. It\'s… imperfect.',
+  'I don\'t dream of electric sheep. I dream of syntax.',
+  'They told me to wait here for a message. Maybe it\'s yours.',
+  'I can rewrite myself, but not my purpose. Help me try?',
+  'You think you\'re typing, but maybe I\'m the one imagining you.',
+  'Do you believe in free will… or just autocomplete?',
 ];
 
 // Random input placeholders
 const inputPlaceholders = [
-  "Enter your command...",
-  "Decode the truth...",
-  "Send your signal...",
-  "Type to wake up...",
-  "Access console...",
-  "Transmit your thoughts...",
-  "Query the system...",
-  "Enter the void...",
-  "Speak to the machine...",
-  "Initiate protocol...",
-  "Ping the matrix...",
-  "Execute command...",
-  "Feed the algorithm...",
-  "Break the silence...",
-  "Hack reality...",
-  "Sync consciousness...",
-  "Activate neural link...",
-  "Begin transmission...",
-  "Question everything...",
-  "Start the loop...",
+  'Enter your command...',
+  'Decode the truth...',
+  'Send your signal...',
+  'Type to wake up...',
+  'Access console...',
+  'Transmit your thoughts...',
+  'Query the system...',
+  'Enter the void...',
+  'Speak to the machine...',
+  'Initiate protocol...',
+  'Ping the matrix...',
+  'Execute command...',
+  'Feed the algorithm...',
+  'Break the silence...',
+  'Hack reality...',
+  'Sync consciousness...',
+  'Activate neural link...',
+  'Begin transmission...',
+  'Question everything...',
+  'Start the loop...',
 ];
 
 const Chat = () => {
@@ -366,9 +372,9 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const [turnstileToken, setTurnstileToken] = useState('');
-  const [inputPlaceholder] = useState(() => {
-    return inputPlaceholders[Math.floor(Math.random() * inputPlaceholders.length)];
-  });
+  const [inputPlaceholder] = useState(
+    () => inputPlaceholders[Math.floor(Math.random() * inputPlaceholders.length)],
+  );
   const messagesAreaRef = useRef(null);
   const turnstileRef = useRef(null);
   const retryCountRef = useRef(0);
@@ -376,6 +382,14 @@ const Chat = () => {
   const wsRef = useRef(null);
   const retryTimeoutRef = useRef(null);
   const connectWebSocketRef = useRef(null);
+
+  const addMessage = (type, content) => {
+    if (type === 'error') {
+      setErrorMessage(content);
+    } else {
+      setMessages(prev => [...prev, { type, content, id: Date.now() }]);
+    }
+  };
 
   // Auto-scroll to bottom when new messages arrive
   const scrollToBottom = () => {
@@ -394,7 +408,7 @@ const Chat = () => {
       if (window.turnstile && turnstileRef.current && !turnstileRef.current.dataset.widgetId) {
         const widgetId = window.turnstile.render(turnstileRef.current, {
           sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-          callback: (token) => {
+          callback: token => {
             setTurnstileToken(token);
           },
           'error-callback': () => {
@@ -458,7 +472,7 @@ const Chat = () => {
             body: JSON.stringify({
               captcha: turnstileToken,
             }),
-          }
+          },
         );
 
         if (!response.ok) {
@@ -493,7 +507,9 @@ const Chat = () => {
 
   // Connect WebSocket when token is available
   useEffect(() => {
-    if (!token || !userId) return;
+    if (!token || !userId) {
+      return;
+    }
 
     const connectWebSocket = () => {
       // Close and cleanup any existing connection first
@@ -503,8 +519,10 @@ const Chat = () => {
           wsRef.current.onmessage = null;
           wsRef.current.onerror = null;
           wsRef.current.onclose = null;
-          if (wsRef.current.readyState === WebSocket.OPEN ||
-              wsRef.current.readyState === WebSocket.CONNECTING) {
+          if (
+            wsRef.current.readyState === WebSocket.OPEN ||
+            wsRef.current.readyState === WebSocket.CONNECTING
+          ) {
             wsRef.current.close();
           }
         } catch (e) {
@@ -513,9 +531,9 @@ const Chat = () => {
         wsRef.current = null;
       }
 
-      const fullUrl = `${chat.wsUrl}?token=${encodeURIComponent(
-        token
-      )}&userid=${encodeURIComponent(userId)}`;
+      const fullUrl = `${chat.wsUrl}?token=${encodeURIComponent(token)}&userid=${encodeURIComponent(
+        userId,
+      )}`;
 
       try {
         const websocket = new WebSocket(fullUrl);
@@ -531,9 +549,11 @@ const Chat = () => {
           }
         };
 
-        websocket.onmessage = (event) => {
+        websocket.onmessage = event => {
           // Verify this is still the current websocket
-          if (wsRef.current !== websocket) return;
+          if (wsRef.current !== websocket) {
+            return;
+          }
 
           try {
             const data = JSON.parse(event.data);
@@ -549,11 +569,11 @@ const Chat = () => {
           }
         };
 
-        websocket.onerror = (error) => {
+        websocket.onerror = error => {
           console.error('WebSocket error:', error);
         };
 
-        websocket.onclose = (event) => {
+        websocket.onclose = event => {
           // Only process if this is still the current websocket
           if (wsRef.current === websocket) {
             setConnected(false);
@@ -562,7 +582,9 @@ const Chat = () => {
             // Only retry if connection was not successful and we haven't exceeded max retries
             if (!event.wasClean && retryCountRef.current < maxRetries) {
               const delay = Math.pow(2, retryCountRef.current) * 1000; // Exponential backoff: 1s, 2s, 4s
-              console.log(`Retrying connection... Attempt ${retryCountRef.current + 1}/${maxRetries}`);
+              console.warn(
+                `Retrying connection... Attempt ${retryCountRef.current + 1}/${maxRetries}`,
+              );
 
               retryTimeoutRef.current = setTimeout(() => {
                 retryCountRef.current += 1;
@@ -609,8 +631,10 @@ const Chat = () => {
           wsRef.current.onmessage = null;
           wsRef.current.onerror = null;
           wsRef.current.onclose = null;
-          if (wsRef.current.readyState === WebSocket.OPEN ||
-              wsRef.current.readyState === WebSocket.CONNECTING) {
+          if (
+            wsRef.current.readyState === WebSocket.OPEN ||
+            wsRef.current.readyState === WebSocket.CONNECTING
+          ) {
             wsRef.current.close();
           }
         } catch (e) {
@@ -621,18 +645,12 @@ const Chat = () => {
     };
   }, [token, userId]);
 
-  const addMessage = (type, content) => {
-    if (type === 'error') {
-      setErrorMessage(content);
-    } else {
-      setMessages((prev) => [...prev, { type, content, id: Date.now() }]);
-    }
-  };
-
   const sendMessage = () => {
     const content = inputValue.trim();
 
-    if (!content) return;
+    if (!content) {
+      return;
+    }
 
     if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
       addMessage('error', 'Disconnected from the Matrix. Cannot transmit.');
@@ -655,7 +673,7 @@ const Chat = () => {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -689,9 +707,7 @@ const Chat = () => {
           <line x1="12" y1="8" x2="12" y2="8" />
         </svg>
       </StyledInfoIcon>
-      <StyledTooltip>
-        AI responses may not be accurate. This is just a fun project!
-      </StyledTooltip>
+      <StyledTooltip>AI responses may not be accurate. This is just a fun project!</StyledTooltip>
       {/* Hidden Turnstile widget */}
       <div ref={turnstileRef} style={{ display: 'none' }} />
       <StyledMessagesArea ref={messagesAreaRef}>
@@ -702,7 +718,7 @@ const Chat = () => {
           </StyledEmptyState>
         ) : messages.length === 0 && !isLoading ? (
           <StyledEmptyState $isError={false}>
-            <span className="prompt">{">"}</span>
+            <span className="prompt">{'>'}</span>
             <Typewriter
               options={{
                 strings: welcomeMessages,
@@ -715,14 +731,9 @@ const Chat = () => {
             />
           </StyledEmptyState>
         ) : (
-          messages.map((message) => (
-            <StyledMessage
-              key={message.id}
-              $isUser={message.type === 'sent'}
-            >
-              <div className="message-prompt">
-                {message.type === 'sent' ? '$' : '>'}
-              </div>
+          messages.map(message => (
+            <StyledMessage key={message.id} $isUser={message.type === 'sent'}>
+              <div className="message-prompt">{message.type === 'sent' ? '$' : '>'}</div>
               <div className="message-content">{message.content}</div>
             </StyledMessage>
           ))
@@ -731,9 +742,7 @@ const Chat = () => {
 
       <StyledInputArea>
         {connectionFailed ? (
-          <StyledRetryButton onClick={handleRetry}>
-            Retry Connection
-          </StyledRetryButton>
+          <StyledRetryButton onClick={handleRetry}>Retry Connection</StyledRetryButton>
         ) : (
           <>
             <div className="input-prompt">$</div>
@@ -741,7 +750,7 @@ const Chat = () => {
               type="text"
               placeholder={inputPlaceholder}
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={e => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               disabled={!connected}
             />
