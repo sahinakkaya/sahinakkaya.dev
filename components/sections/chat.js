@@ -156,6 +156,26 @@ const StyledMessage = styled.div`
   }
 `;
 
+const StyledStreamingIndicator = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin-left: ${({ $hasContent }) => ($hasContent ? '8px' : '0')};
+  color: ${({ theme }) => theme.colors.green};
+  font-size: 12px;
+  letter-spacing: 2px;
+  animation: pulse 1s ease-in-out infinite;
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+`;
+
 const StyledInputArea = styled.div`
   display: flex;
   gap: 8px;
@@ -382,13 +402,115 @@ const Chat = () => {
   const wsRef = useRef(null);
   const retryTimeoutRef = useRef(null);
   const connectWebSocketRef = useRef(null);
+  const activeResponseRef = useRef(null);
+  const messageIdRef = useRef(0);
+  const [isStreaming, setIsStreaming] = useState(false);
+
+  const createMessage = (type, content, properties = {}) => ({
+    type,
+    content,
+    id: `${Date.now()}-${messageIdRef.current++}`,
+    ...properties,
+  });
 
   const addMessage = (type, content) => {
     if (type === 'error') {
       setErrorMessage(content);
     } else {
-      setMessages(prev => [...prev, { type, content, id: Date.now() }]);
+      setMessages(prev => [...prev, createMessage(type, content)]);
     }
+  };
+
+  const startStreamingResponse = () => {
+    const assistantMessage = createMessage('received', '', { isStreaming: true });
+
+    activeResponseRef.current = {
+      id: assistantMessage.id,
+      correlationId: null,
+    };
+    setIsStreaming(true);
+    setMessages(prev => [...prev, assistantMessage]);
+  };
+
+  const hasMatchingCorrelationId = correlationId => {
+    const activeResponse = activeResponseRef.current;
+
+    if (!activeResponse) {
+      return false;
+    }
+
+    return !(
+      activeResponse.correlationId &&
+      correlationId &&
+      activeResponse.correlationId !== correlationId
+    );
+  };
+
+  const stopStreamingResponse = () => {
+    const activeResponse = activeResponseRef.current;
+
+    if (!activeResponse) {
+      return;
+    }
+
+    activeResponseRef.current = null;
+    setIsStreaming(false);
+    setMessages(prev =>
+      prev.map(message =>
+        message.id === activeResponse.id ? { ...message, isStreaming: false } : message,
+      ),
+    );
+  };
+
+  const appendResponseDelta = ({ content, correlation_id: correlationId }) => {
+    const activeResponse = activeResponseRef.current;
+
+    if (!hasMatchingCorrelationId(correlationId)) {
+      return;
+    }
+
+    if (correlationId) {
+      activeResponse.correlationId = correlationId;
+    }
+
+    setMessages(prev =>
+      prev.map(message =>
+        message.id === activeResponse.id
+          ? { ...message, content: `${message.content}${content || ''}` }
+          : message,
+      ),
+    );
+  };
+
+  const completeStreamingResponse = ({ content, correlation_id: correlationId }) => {
+    const activeResponse = activeResponseRef.current;
+
+    if (!activeResponse) {
+      // Preserve compatibility with the former one-shot response event.
+      if (typeof content === 'string') {
+        addMessage('received', content);
+      }
+      return;
+    }
+
+    if (!hasMatchingCorrelationId(correlationId)) {
+      return;
+    }
+
+    activeResponseRef.current = null;
+    setIsStreaming(false);
+    setMessages(prev =>
+      prev.map(message =>
+        message.id === activeResponse.id
+          ? {
+            ...message,
+            // response.done is authoritative, including when it is an empty string.
+            content: typeof content === 'string' ? content : message.content,
+            isStreaming: false,
+          }
+          : message,
+      ),
+    );
   };
 
   // Auto-scroll to bottom when new messages arrive
@@ -558,13 +680,19 @@ const Chat = () => {
           try {
             const data = JSON.parse(event.data);
 
-            if (data.type === 'response') {
-              addMessage('received', data.content);
+            if (data.type === 'response.delta') {
+              appendResponseDelta(data);
+            } else if (data.type === 'response.done') {
+              completeStreamingResponse(data);
+            } else if (data.type === 'response') {
+              completeStreamingResponse(data);
             } else if (data.type === 'error') {
+              stopStreamingResponse();
               addMessage('error', data.message);
             }
           } catch (e) {
             console.error('Failed to parse message:', e);
+            stopStreamingResponse();
             addMessage('error', 'Signal corrupted. Unable to decode transmission.');
           }
         };
@@ -578,6 +706,7 @@ const Chat = () => {
           if (wsRef.current === websocket) {
             setConnected(false);
             wsRef.current = null;
+            stopStreamingResponse();
 
             // Only retry if connection was not successful and we haven't exceeded max retries
             if (!event.wasClean && retryCountRef.current < maxRetries) {
@@ -648,7 +777,7 @@ const Chat = () => {
   const sendMessage = () => {
     const content = inputValue.trim();
 
-    if (!content) {
+    if (!content || activeResponseRef.current) {
       return;
     }
 
@@ -659,15 +788,16 @@ const Chat = () => {
 
     const message = {
       type: 'message',
-      content: content,
-      userid: userId,
+      content,
     };
 
     try {
-      wsRef.current.send(JSON.stringify(message));
       addMessage('sent', content);
+      startStreamingResponse();
       setInputValue('');
+      wsRef.current.send(JSON.stringify(message));
     } catch (e) {
+      stopStreamingResponse();
       addMessage('error', 'Transmission failed. Message lost in the void.');
       console.error('Send error:', e);
     }
@@ -734,7 +864,17 @@ const Chat = () => {
           messages.map(message => (
             <StyledMessage key={message.id} $isUser={message.type === 'sent'}>
               <div className="message-prompt">{message.type === 'sent' ? '$' : '>'}</div>
-              <div className="message-content">{message.content}</div>
+              <div className="message-content">
+                {message.content}
+                {message.isStreaming && (
+                  <StyledStreamingIndicator
+                    $hasContent={Boolean(message.content)}
+                    aria-label="Assistant is typing"
+                    role="status">
+                    <span aria-hidden="true">•••</span>
+                  </StyledStreamingIndicator>
+                )}
+              </div>
             </StyledMessage>
           ))
         )}
@@ -752,7 +892,7 @@ const Chat = () => {
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              disabled={!connected}
+              disabled={!connected || isStreaming}
             />
           </>
         )}
